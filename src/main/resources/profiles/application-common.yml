@@ -1,0 +1,17 @@
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+# Remove stacktrace from response entity
+server:
+  error:
+    include-stacktrace: never
+
+# Secret key & expired time
+security:
+  jwt:
+    token:
+      secret-key: application-secret-key
+      expire-length: 3600000

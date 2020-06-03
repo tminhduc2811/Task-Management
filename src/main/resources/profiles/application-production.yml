@@ -1,0 +1,7 @@
+# SQL Database Information
+spring:
+  datasource:
+    username: admin
+    password: admin
+    url: jdbc:mysql://db:3306/lunglinhdb?useSSL=false
+server: 8080
