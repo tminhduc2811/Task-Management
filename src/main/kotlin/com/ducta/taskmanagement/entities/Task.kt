@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.entities
 
+import com.ducta.taskmanagement.dto.TaskDto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -27,21 +28,33 @@ data class Task(
 
         @Column(name = "priority")
         @Enumerated(EnumType.ORDINAL)
-        val priority: Priority = Priority.LOW
-
-) {
+        val priority: Priority = Priority.LOW,
 
         @Column(name = "due_date")
-        private lateinit var dueDate: LocalDate
+        var dueDate: LocalDate,
 
         @Column(name = "created_at")
-        private lateinit var  createdAt: LocalDateTime
+        var createdAt: LocalDateTime,
 
         @Column(name = "updated_at")
-        private lateinit var  updatedAt: LocalDateTime
+        var updatedAt: LocalDateTime,
 
         @ManyToOne
         @JoinColumn(name = "backlog_id")
-        private lateinit var  backlog: Backlog
+        var backlog: Backlog
 
+) {
+
+    fun toDTO() = TaskDto(
+            id = id,
+            sequence = sequence,
+            summary = summary,
+            acceptanceCriteria = acceptanceCriteria,
+            status = status.toString(),
+            priority = priority.toString(),
+            dueDate = dueDate,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            backlogId = backlog.id!!
+    )
 }

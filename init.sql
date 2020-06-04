@@ -29,16 +29,15 @@ INSERT INTO `user` (`username`, `email`, `password`, `full_name`, `avatar`) VALU
 -- Dumping structure for table task-management.project
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE `project` (
-	`id`					bigint(20) 		NOT NULL AUTO_INCREMENT,
     `project_name`			varchar(50)		NOT NULL,
     `project_identifier`	varchar(5)		NOT NULL UNIQUE,
     `description`			varchar(500)	NOT NULL,
-    `start_date`			datetime		NOT NULL,
+    `start_date`			datetime		DEFAULT NULL,
     `end_date`				datetime		DEFAULT NULL,
     `created_at`			datetime		NOT NULL,
-    `updated_at`			datetime		DEFAULT NULL,
+    `updated_at`			datetime		NOT NULL,
     `user_id`				bigint(20)		NOT NULL,
-	PRIMARY KEY (`id`),
+	PRIMARY KEY (`project_identifier`),
     CONSTRAINT `FK_USER` FOREIGN KEY (`user_id`) 
 	REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -48,10 +47,10 @@ CREATE TABLE `project` (
 DROP TABLE IF EXISTS `backlog`;
 CREATE TABLE `backlog` (
 	`id`					bigint(20) 		NOT NULL AUTO_INCREMENT,
-    `project_identifier`	varchar(5)		NOT NULL,
+    `project_identifier`	varchar(5)		NOT NULL UNIQUE,
 	CONSTRAINT `FK_PROJECT` FOREIGN KEY (`project_identifier`)
     REFERENCES `project` (`project_identifier`),
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`, `project_identifier`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- Dumping structure for table task-management.task_count

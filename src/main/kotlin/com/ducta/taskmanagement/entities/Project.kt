@@ -1,46 +1,70 @@
 package com.ducta.taskmanagement.entities
 
+import com.ducta.taskmanagement.dto.ProjectCreateDto
+import com.ducta.taskmanagement.dto.ProjectDto
+import com.ducta.taskmanagement.dto.ProjectUpdateDto
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "project")
 data class Project(
+
         @Id
-        @Column(name = "id")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0,
+        @Column(name = "project_identifier")
+        val projectIdentifier: String = "",
 
         @Column(name = "project_name")
         val projectName: String = "",
 
-        @Column(name = "project_identifier")
-        val projectIdentifier: String = "",
-
         @Column(name = "description")
-        val description: String = ""
-
-) {
+        val description: String = "",
 
         @Column(name = "start_date")
-        private lateinit var startDate: LocalDateTime
+        val startDate: LocalDateTime? = null,
 
         @Column(name = "end_date")
-        private lateinit var endDate: LocalDateTime
+        val endDate: LocalDateTime? = null,
 
         @Column(name = "created_at")
-        private lateinit var createdAt: LocalDateTime
+        val createdAt: LocalDateTime = LocalDateTime.now(),
 
         @Column(name = "updated_at")
-        private lateinit var updatedAt: LocalDateTime
+        val updatedAt: LocalDateTime = LocalDateTime.now(),
 
-        @ManyToOne
+        @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
         @JoinColumn(name = "user_id")
-        private lateinit var user: User
+        var user: User? = null,
 
         @OneToOne(
                 fetch = FetchType.EAGER,
-                mappedBy = "project"
+                mappedBy = "project",
+                cascade = [CascadeType.ALL]
         )
-        private lateinit var backlog: Backlog
+        var backlog: Backlog? = null
+
+) {
+
+    fun toDto() = ProjectDto(
+            projectName = projectName,
+            projectIdentifier = projectIdentifier,
+            description = description,
+            updatedAt = updatedAt,
+            createdAt = createdAt,
+            startDate = startDate,
+            endDate = endDate,
+            userId = user!!.id
+    )
+
+    companion object {
+        fun fromDto(dto: ProjectCreateDto) = Project(
+                projectName = dto.projectName,
+                projectIdentifier = dto.projectIdentifier,
+                description = dto.description,
+                startDate = dto.startDate,
+                endDate = dto.endDate,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+        )
+    }
 }

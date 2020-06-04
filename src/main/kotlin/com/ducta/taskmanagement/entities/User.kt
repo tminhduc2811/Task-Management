@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.entities
 
+import com.ducta.taskmanagement.dto.UserDto
 import javax.persistence.*
 
 @Entity
@@ -7,7 +8,7 @@ import javax.persistence.*
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = 0,
+        val id: Long = 0,
 
         @Column(name = "username")
         val username: String = "",
@@ -31,4 +32,11 @@ data class User(
         )
         val projects: MutableSet<Project>? = null
 ) {
+        fun toDTO() = UserDto(
+                id = id,
+                username = username,
+                email = email,
+                fullName = fullName,
+                avatar = avatar
+        )
 }

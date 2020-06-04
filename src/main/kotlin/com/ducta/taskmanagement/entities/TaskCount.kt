@@ -8,14 +8,15 @@ data class TaskCount(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
-        val id: Long = 0,
+        val id: Long? = null,
 
         @Column(name = "total")
-        val total: Long = 0
-) {
+        val total: Long = 0,
 
         @OneToOne
         @JoinColumn(name = "backlog_id", referencedColumnName = "id")
-        private lateinit var backlog: Backlog
+        var backlog: Backlog? = null
+) {
+
 
 }
