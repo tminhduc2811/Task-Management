@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.dto
 
+import com.ducta.taskmanagement.util.NullableNotBlank
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -15,6 +16,7 @@ data class ProjectDto(
 )
 
 data class ProjectCreateDto(
+        @NullableNotBlank
         val projectName: String,
         val projectIdentifier: String,
         val description: String,

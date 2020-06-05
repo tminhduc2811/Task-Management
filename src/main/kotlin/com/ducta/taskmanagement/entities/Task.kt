@@ -5,6 +5,7 @@ import com.ducta.taskmanagement.dto.TaskDto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
+import javax.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "task")

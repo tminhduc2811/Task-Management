@@ -6,6 +6,7 @@ import com.ducta.taskmanagement.services.BacklogService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
@@ -17,7 +18,7 @@ class BacklogController(private val backlogService: BacklogService) {
 
     @PostMapping("/backlog/{projectIdentifier}")
     fun createTask(@PathVariable projectIdentifier: String,
-                   @RequestBody taskCreateDto: TaskCreateDto): ResponseEntity<Void> {
+                   @Valid @RequestBody taskCreateDto: TaskCreateDto): ResponseEntity<Void> {
         backlogService.createTask(projectIdentifier, taskCreateDto)
         return ResponseEntity(HttpStatus.CREATED)
     }

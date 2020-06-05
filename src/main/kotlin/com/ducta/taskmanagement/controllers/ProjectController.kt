@@ -7,13 +7,14 @@ import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api")
 class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/projects")
-    fun createProject(@RequestBody projectCreateDto: ProjectCreateDto) : ResponseEntity<Void> {
+    fun createProject(@Valid @RequestBody projectCreateDto: ProjectCreateDto) : ResponseEntity<Void> {
         projectService.createProject(projectCreateDto)
         return ResponseEntity(HttpStatus.CREATED)
     }
