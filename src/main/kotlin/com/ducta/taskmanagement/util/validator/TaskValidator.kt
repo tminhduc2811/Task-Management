@@ -1,4 +1,4 @@
-package com.ducta.taskmanagement.util
+package com.ducta.taskmanagement.util.validator
 
 import javax.validation.Constraint
 import javax.validation.ConstraintValidator

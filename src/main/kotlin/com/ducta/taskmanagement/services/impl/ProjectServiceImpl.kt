@@ -54,7 +54,7 @@ class ProjectServiceImpl(
 
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
         return projectRepository.findById(projectIdentifier).map { project -> project.toDto() }
-                .orElseThrow { Exception("not found") }
+                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
     }
 
     override fun deleteProject(projectIdentifier: String) {

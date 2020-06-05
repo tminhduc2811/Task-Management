@@ -1,4 +1,4 @@
-package com.ducta.taskmanagement.util
+package com.ducta.taskmanagement.util.validator
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY_GETTER)
 @MustBeDocumented
-@Constraint(validatedBy = [NullableNotBlankValidator::class])
+@Constraint(validatedBy = [PasswordValidator::class])
 annotation class PasswordConstraint(
         val message: String = "Your password is not satisfied",
         val groups: Array<KClass<*>> = [],
@@ -20,7 +20,9 @@ annotation class PasswordConstraint(
 
 class PasswordValidator : ConstraintValidator<PasswordConstraint, String> {
     override fun isValid(password: String?, context: ConstraintValidatorContext?): Boolean {
-        val pattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,}\$")
+
+        // Password must be between 8 & 40 characters, at least 1 digit, lower key, upper key and special character
+        val pattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,40}\$")
         if (password == null) {
             return false
         }

@@ -1,6 +1,6 @@
 package com.ducta.taskmanagement.dto
 
-import com.ducta.taskmanagement.util.NullableNotBlank
+import com.ducta.taskmanagement.util.validator.NullableNotBlank
 import java.time.LocalDate
 import java.time.LocalDateTime
 
