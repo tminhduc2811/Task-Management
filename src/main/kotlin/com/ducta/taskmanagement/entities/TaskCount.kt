@@ -11,7 +11,7 @@ data class TaskCount(
         val id: Long? = null,
 
         @Column(name = "total")
-        val total: Long = 0,
+        var total: Long = 0,
 
         @OneToOne
         @JoinColumn(name = "backlog_id", referencedColumnName = "id")

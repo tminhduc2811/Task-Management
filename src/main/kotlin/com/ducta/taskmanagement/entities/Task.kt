@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.entities
 
+import com.ducta.taskmanagement.dto.TaskCreateDto
 import com.ducta.taskmanagement.dto.TaskDto
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -14,7 +15,7 @@ data class Task(
         val id: Long = 0,
 
         @Column(name = "sequence")
-        val sequence: String = "",
+        var sequence: String = "",
 
         @Column(name = "summary")
         val summary: String = "",
@@ -23,29 +24,29 @@ data class Task(
         val acceptanceCriteria: String = "",
 
         @Column(name = "status")
-        @Enumerated(EnumType.ORDINAL)
+        @Enumerated(EnumType.STRING)
         val status: Status = Status.TODO,
 
         @Column(name = "priority")
-        @Enumerated(EnumType.ORDINAL)
+        @Enumerated(EnumType.STRING)
         val priority: Priority = Priority.LOW,
 
         @Column(name = "due_date")
-        var dueDate: LocalDate,
+        var dueDate: LocalDate = LocalDate.now(),
 
         @Column(name = "created_at")
-        var createdAt: LocalDateTime,
+        var createdAt: LocalDateTime = LocalDateTime.now(),
 
         @Column(name = "updated_at")
-        var updatedAt: LocalDateTime,
+        var updatedAt: LocalDateTime = LocalDateTime.now(),
 
         @ManyToOne
         @JoinColumn(name = "backlog_id")
-        var backlog: Backlog
+        var backlog: Backlog? = null
 
 ) {
 
-    fun toDTO() = TaskDto(
+    fun toDto() = TaskDto(
             id = id,
             sequence = sequence,
             summary = summary,
@@ -55,6 +56,16 @@ data class Task(
             dueDate = dueDate,
             createdAt = createdAt,
             updatedAt = updatedAt,
-            backlogId = backlog.id!!
+            backlogId = backlog!!.id
     )
+
+    companion object {
+            fun fromDto(taskCreateDto: TaskCreateDto) = Task(
+                    summary = taskCreateDto.summary,
+                    acceptanceCriteria = taskCreateDto.acceptanceCriteria,
+                    status = Status.valueOf(taskCreateDto.status),
+                    priority = Priority.valueOf(taskCreateDto.priority),
+                    dueDate = taskCreateDto.dueDate
+            )
+    }
 }

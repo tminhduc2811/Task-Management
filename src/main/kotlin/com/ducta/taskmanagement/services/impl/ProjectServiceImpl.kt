@@ -48,14 +48,13 @@ class ProjectServiceImpl(
     }
 
     override fun getAllProjectsByUserId(id: Long): List<ProjectDto> {
-        val projectDto: MutableList<ProjectDto> = mutableListOf()
-        projectRepository.findAllProjectsByUserId(id)
-                .map { project -> projectDto.add(project.toDto()) }
-        return projectDto
+        return projectRepository.findAllProjectsByUserId(id)
+                .map { project -> project.toDto() }.toList()
     }
 
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
-        return projectRepository.findById(projectIdentifier).map { project -> project.toDto() }.orElseThrow { Exception("not found") }
+        return projectRepository.findById(projectIdentifier).map { project -> project.toDto() }
+                .orElseThrow { Exception("not found") }
     }
 
     override fun deleteProject(projectIdentifier: String) {

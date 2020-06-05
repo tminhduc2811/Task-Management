@@ -8,7 +8,7 @@ data class Backlog(
         @Id
         @Column(name = "id")
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long? = null,
+        var id: Long = 0,
 
         @OneToOne
         @JoinColumn(name = "project_identifier", referencedColumnName = "project_identifier", unique = true)
@@ -18,10 +18,13 @@ data class Backlog(
         var taskCount: TaskCount = TaskCount(),
 
         @OneToMany(
-                cascade = [CascadeType.ALL],
+                cascade = [CascadeType.DETACH, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH],
                 mappedBy = "backlog",
                 fetch = FetchType.LAZY
         )
-        var tasks: MutableSet<Task>? = null
+        var tasks: MutableList<Task> = mutableListOf()
 ) {
+        fun addTask(task: Task) {
+                tasks.add(task)
+        }
 }

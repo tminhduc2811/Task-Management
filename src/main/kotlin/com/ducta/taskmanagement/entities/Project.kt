@@ -3,6 +3,7 @@ package com.ducta.taskmanagement.entities
 import com.ducta.taskmanagement.dto.ProjectCreateDto
 import com.ducta.taskmanagement.dto.ProjectDto
 import com.ducta.taskmanagement.dto.ProjectUpdateDto
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -21,10 +22,10 @@ data class Project(
         val description: String = "",
 
         @Column(name = "start_date")
-        val startDate: LocalDateTime? = null,
+        val startDate: LocalDate? = null,
 
         @Column(name = "end_date")
-        val endDate: LocalDateTime? = null,
+        val endDate: LocalDate? = null,
 
         @Column(name = "created_at")
         val createdAt: LocalDateTime = LocalDateTime.now(),

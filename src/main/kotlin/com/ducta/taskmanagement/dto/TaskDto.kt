@@ -15,3 +15,11 @@ data class TaskDto (
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime
 )
+
+data class TaskCreateDto(
+        val summary: String,
+        val acceptanceCriteria: String,
+        val status: String,
+        val priority: String,
+        val dueDate: LocalDate
+)

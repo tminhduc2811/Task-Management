@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest
 
 @ControllerAdvice
 class CustomGlobalExceptionHandler: ResponseEntityExceptionHandler() {
+
     @ExceptionHandler(value = [(ProjectAlreadyExistsException::class)])
     fun handleProjectAlreadyExists(ex: ProjectAlreadyExistsException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
-                "Cannot create new project",
+                "Bad request",
                 ex.message!!,
                 request.requestURI
         )
@@ -27,7 +28,7 @@ class CustomGlobalExceptionHandler: ResponseEntityExceptionHandler() {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
-                "Cannot modify or delete project",
+                "Bad request",
                 ex.message!!,
                 request.requestURI
         )
@@ -40,6 +41,42 @@ class CustomGlobalExceptionHandler: ResponseEntityExceptionHandler() {
                 Date(),
                 400,
                 "Start date and End date are not suitable",
+                ex.message!!,
+                request.requestURI
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(value = [(BadPriorityException::class)])
+    fun handleBadPriorityException(ex: BadPriorityException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+                Date(),
+                400,
+                "Bad request",
+                ex.message!!,
+                request.requestURI
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(value = [(BadStatusException::class)])
+    fun handleBadStatusException(ex: BadStatusException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+                Date(),
+                400,
+                "Bad request",
+                ex.message!!,
+                request.requestURI
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(value = [(TaskNotFoundException::class)])
+    fun handleTaskNotFoundException(ex: TaskNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+                Date(),
+                400,
+                "Bad request",
                 ex.message!!,
                 request.requestURI
         )
