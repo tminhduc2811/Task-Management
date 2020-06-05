@@ -17,7 +17,7 @@ class CustomGlobalExceptionHandler: ResponseEntityExceptionHandler() {
                 400,
                 "Cannot create new project",
                 ex.message!!,
-                path = request.requestURI
+                request.requestURI
         )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
@@ -29,7 +29,19 @@ class CustomGlobalExceptionHandler: ResponseEntityExceptionHandler() {
                 400,
                 "Cannot modify or delete project",
                 ex.message!!,
-                path = request.requestURI
+                request.requestURI
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(value = [(ProjectInvalidDateException::class)])
+    fun handleProjectInvalidDate(ex: ProjectInvalidDateException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+                Date(),
+                400,
+                "Start date and End date are not suitable",
+                ex.message!!,
+                request.requestURI
         )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }

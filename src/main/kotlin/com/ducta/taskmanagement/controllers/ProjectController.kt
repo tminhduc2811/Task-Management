@@ -4,7 +4,6 @@ import com.ducta.taskmanagement.dto.ProjectCreateDto
 import com.ducta.taskmanagement.dto.ProjectDto
 import com.ducta.taskmanagement.dto.ProjectUpdateDto
 import com.ducta.taskmanagement.services.ProjectService
-import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

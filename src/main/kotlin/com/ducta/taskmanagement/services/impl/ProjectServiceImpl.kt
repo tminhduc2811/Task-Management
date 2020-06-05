@@ -8,6 +8,7 @@ import com.ducta.taskmanagement.entities.Project
 import com.ducta.taskmanagement.entities.TaskCount
 import com.ducta.taskmanagement.entities.User
 import com.ducta.taskmanagement.exceptions.ProjectAlreadyExistsException
+import com.ducta.taskmanagement.exceptions.ProjectInvalidDateException
 import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
@@ -24,7 +25,12 @@ class ProjectServiceImpl(
         try {
             projectRepository.findById(projectCreateDto.projectIdentifier)
                     .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
-            val user: User = userRepository.findById(projectCreateDto.userId).map { user -> user }.orElseThrow { throw Exception("User not found") }
+            if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
+                throw ProjectInvalidDateException()
+            }
+
+            val user: User = userRepository.findById(projectCreateDto.userId).map { user -> user }
+                    .orElseThrow { throw Exception("User not found") }
             val taskCount = TaskCount()
             val project: Project = Project.fromDto(projectCreateDto)
             val backlog = Backlog(
@@ -43,7 +49,8 @@ class ProjectServiceImpl(
 
     override fun getAllProjectsByUserId(id: Long): List<ProjectDto> {
         val projectDto: MutableList<ProjectDto> = mutableListOf()
-        projectRepository.findAllProjectsByUserId(id).map { project -> projectDto.add(project.toDto()) }
+        projectRepository.findAllProjectsByUserId(id)
+                .map { project -> projectDto.add(project.toDto()) }
         return projectDto
     }
 
@@ -62,6 +69,9 @@ class ProjectServiceImpl(
     override fun updateProject(projectIdentifier: String, projectUpdateDto: ProjectUpdateDto) {
         projectRepository.findById(projectIdentifier)
                 .map { project ->
+                    if (projectUpdateDto.startDate.isAfter(projectUpdateDto.endDate)) {
+                        throw ProjectInvalidDateException()
+                    }
                     val updatedProject: Project = project
                             .copy(
                                     projectName = projectUpdateDto.projectName,
