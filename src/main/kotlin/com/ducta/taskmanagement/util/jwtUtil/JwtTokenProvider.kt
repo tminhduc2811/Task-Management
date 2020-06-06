@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.util.jwtUtil
 
+import com.ducta.taskmanagement.security.UserAuthenticationDetails
 import io.jsonwebtoken.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
@@ -21,7 +22,7 @@ class JwtTokenProvider {
         val now = Date()
         val expiryDate = Date(now.time + EXPIRATION)
         return Jwts.builder()
-                .setSubject(userDetails.principal.toString())
+                .setSubject((userDetails.principal as UserAuthenticationDetails).username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)

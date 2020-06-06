@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.dto
 
-import com.ducta.taskmanagement.util.validator.NullableNotBlank
 import java.time.LocalDate
 import java.time.LocalDateTime
+import javax.validation.constraints.NotBlank
 
 data class ProjectDto(
         val projectName: String,
@@ -16,11 +16,15 @@ data class ProjectDto(
 )
 
 data class ProjectCreateDto(
-        @NullableNotBlank
+        @get:NotBlank
         val projectName: String,
+        @get:NotBlank
         val projectIdentifier: String,
+        @get:NotBlank
         val description: String,
+        @get:NotBlank
         val startDate: LocalDate,
+        @get:NotBlank
         val endDate: LocalDate,
         val userId: Long
 )
