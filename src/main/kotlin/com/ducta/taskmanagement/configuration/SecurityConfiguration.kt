@@ -6,6 +6,7 @@ import com.ducta.taskmanagement.util.jwtUtil.JwtFilter
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.BeanIds
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -24,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Profile(value = ["development", "production"])
 class SecurityConfiguration(
         private val userAuthenticationService: UserAuthenticationService,
         private val userAuthenticationProvider: UserAuthenticationProvider,

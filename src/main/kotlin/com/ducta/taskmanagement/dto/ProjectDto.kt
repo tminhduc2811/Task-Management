@@ -22,9 +22,7 @@ data class ProjectCreateDto(
         val projectIdentifier: String,
         @get:NotBlank
         val description: String,
-        @get:NotBlank
         val startDate: LocalDate,
-        @get:NotBlank
         val endDate: LocalDate,
         val userId: Long
 )

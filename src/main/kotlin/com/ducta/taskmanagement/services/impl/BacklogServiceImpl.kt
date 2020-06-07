@@ -1,6 +1,5 @@
 package com.ducta.taskmanagement.services.impl
 
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
 import com.ducta.taskmanagement.dto.TaskCreateDto
 import com.ducta.taskmanagement.dto.TaskDto
 import com.ducta.taskmanagement.entities.Backlog
@@ -12,7 +11,6 @@ import com.ducta.taskmanagement.exceptions.BadStatusException
 import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
 import com.ducta.taskmanagement.exceptions.TaskNotFoundException
 import com.ducta.taskmanagement.repositories.BacklogRepository
-import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.TaskRepository
 import com.ducta.taskmanagement.services.BacklogService
 import org.springframework.stereotype.Service
@@ -62,6 +60,12 @@ class BacklogServiceImpl(
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
                 .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+        if (!Priority.values().any() { it.name == taskUpdateDto.priority }) {
+            throw BadPriorityException(taskUpdateDto.priority)
+        }
+        if (!Status.values().any() { it.name == taskUpdateDto.status }) {
+            throw BadStatusException(taskUpdateDto.status)
+        }
         val task: Task = backlog.tasks.firstOrNull { it.sequence == taskSequence }
                 ?: throw TaskNotFoundException(taskSequence)
         // Update task fields

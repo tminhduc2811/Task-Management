@@ -14,10 +14,9 @@ import javax.validation.Valid
 @RequestMapping("/api")
 class UserController(private val userService: UserService) {
 
-    @GetMapping("/users/{id}")
-    fun getUserById(@PathVariable(value = "id") userId: Long): ResponseEntity<UserDto> {
-        println("test $userId")
-        return ResponseEntity.ok(userService.getUserById(userId))
+    @GetMapping("/users/{username}")
+    fun getUserByUsername(@PathVariable(value = "username") username: String): ResponseEntity<UserDto> {
+        return ResponseEntity.ok(userService.getUserByUsername(username))
     }
 
     @PostMapping("/users/register")

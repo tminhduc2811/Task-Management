@@ -8,6 +8,7 @@ import com.ducta.taskmanagement.entities.User
 import com.ducta.taskmanagement.exceptions.AuthenticationException
 import com.ducta.taskmanagement.exceptions.EmailAlreadyExistsException
 import com.ducta.taskmanagement.exceptions.UserAlreadyExistsException
+import com.ducta.taskmanagement.exceptions.UserNotFoundException
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.UserService
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
@@ -23,12 +24,8 @@ class UserServiceImpl(private val userRepository: UserRepository,
                       private val passwordEncoder: BCryptPasswordEncoder = BCryptPasswordEncoder(),
                       private val authenticationManager: AuthenticationManager,
                       private val jwtTokenProvider: JwtTokenProvider) : UserService {
-    override fun getUserById(userId: Long): UserDto {
-        try {
-            return userRepository.findById(userId).map { user -> user.toDTO() }.orElseThrow { Exception("Not found") }
-        } catch (ex: Exception) {
-            throw ex
-        }
+    override fun getUserByUsername(username: String): UserDto {
+        return userRepository.findUserByUsername(username).map { user -> user.toDTO() }.orElseThrow { UserNotFoundException(username) }
     }
 
     override fun registerUser(userRegisterDto: UserRegisterDto) {
