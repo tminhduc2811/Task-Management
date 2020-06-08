@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 
@@ -20,6 +21,7 @@ import org.springframework.test.context.TestPropertySource
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class BacklogControllerTest {
 
 
@@ -42,6 +44,7 @@ class BacklogControllerTest {
         }
         // Get all tasks
         val response: ResponseEntity<List<TaskDto>> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET)
+        println(response.body)
         Assertions.assertEquals(HttpStatus.OK, response.statusCode)
         Assertions.assertNotNull(response.body)
         Assertions.assertEquals(2, response.body!!.size)
@@ -96,12 +99,12 @@ class BacklogControllerTest {
     @Test
     @Order(6)
     fun deleteTask() {
-        val responseEntity: ResponseEntity<Any> = restTemplate.exchange("$url/KOTL1/KOTL1-1", HttpMethod.DELETE)
+        val responseEntity: ResponseEntity<Any> = restTemplate.exchange("$url/KOTL1/KOTL1-2", HttpMethod.DELETE)
         Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
         // Delete again, expect Bad request, task not found
-        val responseEntity2: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/KOTL1/KOTL1-1", HttpMethod.DELETE)
+        val responseEntity2: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/KOTL1/KOTL1-2", HttpMethod.DELETE)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity2.statusCode)
         Assertions.assertNotNull(responseEntity2.body)
-        Assertions.assertEquals("Task KOTL1-1 not found", responseEntity2.body!!.details)
+        Assertions.assertEquals("Task KOTL1-2 not found", responseEntity2.body!!.details)
     }
 }

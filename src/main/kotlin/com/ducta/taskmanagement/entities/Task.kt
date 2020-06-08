@@ -5,7 +5,6 @@ import com.ducta.taskmanagement.dto.TaskDto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "task")
@@ -39,13 +38,14 @@ data class Task(
         var createdAt: LocalDateTime = LocalDateTime.now(),
 
         @Column(name = "updated_at")
-        var updatedAt: LocalDateTime = LocalDateTime.now(),
+        var updatedAt: LocalDateTime = LocalDateTime.now()
 
-        @ManyToOne
-        @JoinColumn(name = "backlog_id")
-        var backlog: Backlog? = null
 
 ) {
+
+    @ManyToOne
+    @JoinColumn(name = "backlog_id")
+    var backlog: Backlog? = null
 
     fun toDto() = TaskDto(
             id = id,
@@ -61,12 +61,12 @@ data class Task(
     )
 
     companion object {
-            fun fromDto(taskCreateDto: TaskCreateDto) = Task(
-                    summary = taskCreateDto.summary,
-                    acceptanceCriteria = taskCreateDto.acceptanceCriteria,
-                    status = Status.valueOf(taskCreateDto.status),
-                    priority = Priority.valueOf(taskCreateDto.priority),
-                    dueDate = taskCreateDto.dueDate
-            )
+        fun fromDto(taskCreateDto: TaskCreateDto) = Task(
+                summary = taskCreateDto.summary,
+                acceptanceCriteria = taskCreateDto.acceptanceCriteria,
+                status = Status.valueOf(taskCreateDto.status),
+                priority = Priority.valueOf(taskCreateDto.priority),
+                dueDate = taskCreateDto.dueDate
+        )
     }
 }

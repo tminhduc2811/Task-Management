@@ -31,20 +31,21 @@ data class Project(
         val createdAt: LocalDateTime = LocalDateTime.now(),
 
         @Column(name = "updated_at")
-        val updatedAt: LocalDateTime = LocalDateTime.now(),
+        val updatedAt: LocalDateTime = LocalDateTime.now()
 
-        @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
-        @JoinColumn(name = "user_id")
-        var user: User? = null,
-
-        @OneToOne(
-                fetch = FetchType.EAGER,
-                mappedBy = "project",
-                cascade = [CascadeType.ALL]
-        )
-        var backlog: Backlog? = null
 
 ) {
+
+    @ManyToOne(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
+    @JoinColumn(name = "user_id")
+    var user: User? = null
+
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            mappedBy = "project",
+            cascade = [CascadeType.ALL]
+    )
+    var backlog: Backlog? = null
 
     fun toDto() = ProjectDto(
             projectName = projectName,

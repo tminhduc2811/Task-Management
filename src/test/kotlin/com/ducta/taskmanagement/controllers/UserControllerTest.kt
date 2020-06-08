@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
+import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.boot.test.web.client.postForEntity
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 
@@ -20,6 +22,7 @@ import org.springframework.test.context.TestPropertySource
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class UserControllerTest {
     @Autowired
     private lateinit var restTemplate: TestRestTemplate
@@ -74,5 +77,18 @@ class UserControllerTest {
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertEquals("Validation failed", responseEntity.body!!.details)
         Assertions.assertEquals("Your password is not satisfied", responseEntity.body!!.errors?.get("password"))
+    }
+
+    @Test
+    @Order(6)
+    fun testRegisterUserSuccess() {
+        val userRegisterDto = UserControllerTestCases.getTestCaseRegisterUser()
+        val responseEntity: ResponseEntity<Void> = restTemplate.exchange("$url/register", HttpMethod.POST, HttpEntity(userRegisterDto))
+        Assertions.assertEquals(HttpStatus.CREATED, responseEntity.statusCode)
+        // Check once again
+        val responseEntity2: ResponseEntity<UserDto> = restTemplate.getForEntity("$url/${userRegisterDto.username}")
+        Assertions.assertEquals(HttpStatus.OK, responseEntity2.statusCode)
+        Assertions.assertNotNull(responseEntity2.body)
+        Assertions.assertEquals(userRegisterDto.fullName, responseEntity2.body!!.fullName)
     }
 }

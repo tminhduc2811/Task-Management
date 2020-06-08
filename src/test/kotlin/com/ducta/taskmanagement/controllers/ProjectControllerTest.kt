@@ -11,6 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
 import org.springframework.boot.test.web.client.postForEntity
 import org.springframework.http.*
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 
@@ -19,6 +20,7 @@ import org.springframework.test.context.TestPropertySource
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class ProjectControllerTest {
 
     @Autowired
@@ -106,11 +108,11 @@ class ProjectControllerTest {
 
         val entity = HttpEntity(newProject!!, headers)
 
-        val response: ResponseEntity<Any> = restTemplate.exchange("$url/${projectIdentifier}", HttpMethod.PUT, entity)
+        val response: ResponseEntity<Any> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.PUT, entity)
         Assertions.assertEquals(HttpStatus.OK, response.statusCode)
 
         // Try to retrieve and check again
-        val responseEntity: ResponseEntity<ProjectDto> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET, HttpEntity(null, headers))
+        val responseEntity: ResponseEntity<ProjectDto> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET, entity)
         Assertions.assertEquals(HttpStatus.OK, responseEntity.statusCode)
         val actual = responseEntity.body!!
         Assertions.assertEquals(newProject.description, actual.description)

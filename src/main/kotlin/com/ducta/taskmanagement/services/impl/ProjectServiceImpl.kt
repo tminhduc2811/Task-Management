@@ -22,29 +22,26 @@ class ProjectServiceImpl(
         private val userRepository: UserRepository) : ProjectService {
 
     override fun createProject(projectCreateDto: ProjectCreateDto) {
-        try {
-            projectRepository.findById(projectCreateDto.projectIdentifier)
-                    .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
-            if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
-                throw ProjectInvalidDateException()
-            }
 
-            val user: User = userRepository.findById(projectCreateDto.userId).map { user -> user }
-                    .orElseThrow { throw Exception("User not found") }
-            val taskCount = TaskCount()
-            val project: Project = Project.fromDto(projectCreateDto)
-            val backlog = Backlog(
-                    taskCount = taskCount,
-                    project = project
-            )
-            taskCount.backlog = backlog
-
-            project.user = user
-            project.backlog = backlog
-            projectRepository.save(project)
-        } catch (ex: Exception) {
-            throw ex
+        projectRepository.findById(projectCreateDto.projectIdentifier)
+                .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
+        if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
+            throw ProjectInvalidDateException()
         }
+
+        val user: User = userRepository.findById(projectCreateDto.userId).map { user -> user }
+                .orElseThrow { throw Exception("User not found") }
+        val taskCount = TaskCount()
+        val project: Project = Project.fromDto(projectCreateDto)
+        val backlog = Backlog()
+        backlog.taskCount = taskCount
+        backlog.project = project
+        taskCount.backlog = backlog
+
+        project.user = user
+        project.backlog = backlog
+        projectRepository.save(project)
+
     }
 
     override fun getAllProjectsByUserId(id: Long): List<ProjectDto> {
@@ -79,6 +76,8 @@ class ProjectServiceImpl(
                                     endDate = projectUpdateDto.endDate,
                                     updatedAt = LocalDateTime.now()
                             )
+                    updatedProject.backlog = project.backlog
+                    updatedProject.user = project.user
                     projectRepository.save(updatedProject)
                 }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
     }

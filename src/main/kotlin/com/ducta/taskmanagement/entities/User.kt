@@ -30,7 +30,7 @@ data class User(
                 mappedBy = "user",
                 fetch = FetchType.LAZY
         )
-        val projects: MutableSet<Project>? = null
+        val projects: MutableSet<Project>? = mutableSetOf()
 ) {
         fun toDTO() = UserDto(
                 id = id,
