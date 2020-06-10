@@ -18,4 +18,7 @@ interface UserRepository: JpaRepository<User, Long> {
 
     @Query("SELECT COUNT(u)>0 FROM User u WHERE u.email=:email")
     fun isEmailExist(@Param("email") email: String): Boolean
+
+    @Query("SELECT COUNT(p)>0 FROM Project p WHERE p.user.username=:username AND p.projectIdentifier=:projectIdentifier")
+    fun isUserOwnerOfProject(@Param("username") username: String, @Param("projectIdentifier") projectIdentifier: String): Boolean
 }

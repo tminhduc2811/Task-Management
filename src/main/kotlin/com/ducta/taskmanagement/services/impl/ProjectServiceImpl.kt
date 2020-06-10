@@ -7,12 +7,14 @@ import com.ducta.taskmanagement.entities.Backlog
 import com.ducta.taskmanagement.entities.Project
 import com.ducta.taskmanagement.entities.TaskCount
 import com.ducta.taskmanagement.entities.User
+import com.ducta.taskmanagement.exceptions.ProjectAccessDeniedException
 import com.ducta.taskmanagement.exceptions.ProjectAlreadyExistsException
 import com.ducta.taskmanagement.exceptions.ProjectInvalidDateException
 import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.ProjectService
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -21,7 +23,7 @@ class ProjectServiceImpl(
         private val projectRepository: ProjectRepository,
         private val userRepository: UserRepository) : ProjectService {
 
-    override fun createProject(projectCreateDto: ProjectCreateDto) {
+    override fun createProject(username: String, projectCreateDto: ProjectCreateDto) {
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
                 .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
@@ -29,7 +31,7 @@ class ProjectServiceImpl(
             throw ProjectInvalidDateException()
         }
 
-        val user: User = userRepository.findById(projectCreateDto.userId).map { user -> user }
+        val user: User = userRepository.findUserByUsername(username).map { user -> user }
                 .orElseThrow { throw Exception("User not found") }
         val taskCount = TaskCount()
         val project: Project = Project.fromDto(projectCreateDto)
@@ -44,14 +46,16 @@ class ProjectServiceImpl(
 
     }
 
-    override fun getAllProjectsByUserId(id: Long): List<ProjectDto> {
-        return projectRepository.findAllProjectsByUserId(id)
+    override fun getAllProjectsByUsername(username: String): List<ProjectDto> {
+        return projectRepository.findAllProjectsByUsername(username)
                 .map { project -> project.toDto() }.toList()
     }
 
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
-        return projectRepository.findById(projectIdentifier).map { project -> project.toDto() }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+        return projectRepository.findById(projectIdentifier).map {
+            println(it)
+            it.toDto()
+        }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
     }
 
     override fun deleteProject(projectIdentifier: String) {
@@ -80,5 +84,16 @@ class ProjectServiceImpl(
                     updatedProject.user = project.user
                     projectRepository.save(updatedProject)
                 }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+    }
+
+    override fun isUserOwnerOfProject(projectIdentifier: String, username: String) {
+        projectRepository.findById(projectIdentifier).ifPresent {
+            if (it.user!!.username != username) {
+                println(username)
+                println(it.user!!.username)
+                throw ProjectAccessDeniedException(projectIdentifier)
+            }
+        }
+
     }
 }

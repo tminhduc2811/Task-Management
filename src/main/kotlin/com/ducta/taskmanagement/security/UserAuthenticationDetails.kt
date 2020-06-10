@@ -5,7 +5,8 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserAuthenticationDetails(private val user: User): UserDetails {
+class UserAuthenticationDetails(val user: User): UserDetails {
+
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return arrayListOf(SimpleGrantedAuthority("User"))
     }

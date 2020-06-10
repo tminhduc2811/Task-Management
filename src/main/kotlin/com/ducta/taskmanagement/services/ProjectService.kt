@@ -5,13 +5,15 @@ import com.ducta.taskmanagement.dto.ProjectDto
 import com.ducta.taskmanagement.dto.ProjectUpdateDto
 
 interface ProjectService {
-    fun createProject(projectCreateDto: ProjectCreateDto)
+    fun createProject(username: String, projectCreateDto: ProjectCreateDto)
 
-    fun getAllProjectsByUserId(id: Long): List<ProjectDto>
+    fun getAllProjectsByUsername(username: String): List<ProjectDto>
 
     fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto
 
     fun deleteProject(projectIdentifier: String)
 
     fun updateProject(projectIdentifier: String, projectUpdateDto: ProjectUpdateDto)
+
+    fun isUserOwnerOfProject(projectIdentifier: String, username: String)
 }

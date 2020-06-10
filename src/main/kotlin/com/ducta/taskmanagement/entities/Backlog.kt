@@ -22,7 +22,7 @@ data class Backlog(
         @OneToMany(
                 cascade = [CascadeType.DETACH, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH],
                 mappedBy = "backlog",
-                fetch = FetchType.LAZY
+                fetch = FetchType.EAGER
         )
         var tasks: MutableList<Task> = mutableListOf()
 

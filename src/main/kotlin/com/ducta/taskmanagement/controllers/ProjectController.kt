@@ -6,7 +6,10 @@ import com.ducta.taskmanagement.dto.ProjectUpdateDto
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
+import java.nio.file.attribute.GroupPrincipal
 import javax.validation.Valid
 
 @RestController
@@ -15,23 +18,28 @@ class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/projects")
     fun createProject(@Valid @RequestBody projectCreateDto: ProjectCreateDto) : ResponseEntity<Void> {
-        projectService.createProject(projectCreateDto)
+        val username = SecurityContextHolder.getContext().authentication.name
+        projectService.createProject(username, projectCreateDto)
         return ResponseEntity(HttpStatus.CREATED)
     }
 
     @GetMapping("/projects")
     fun getAllProjects(): ResponseEntity<List<ProjectDto>> {
-        // TODO: Change Id by getting user info
-        return ResponseEntity(projectService.getAllProjectsByUserId(1L), HttpStatus.OK)
+        val username = SecurityContextHolder.getContext().authentication.name
+        return ResponseEntity(projectService.getAllProjectsByUsername(username), HttpStatus.OK)
     }
 
     @GetMapping("/projects/{projectIdentifier}")
     fun getProjectByProjectIdentifier(@PathVariable projectIdentifier: String): ResponseEntity<ProjectDto> {
+        val username = SecurityContextHolder.getContext().authentication.name
+        projectService.isUserOwnerOfProject(projectIdentifier, username)
         return ResponseEntity(projectService.getProjectByProjectIdentifier(projectIdentifier), HttpStatus.OK)
     }
 
     @DeleteMapping("/projects/{projectIdentifier}")
     fun deleteProject(@PathVariable projectIdentifier: String): ResponseEntity<Void> {
+        val username = SecurityContextHolder.getContext().authentication.name
+        projectService.isUserOwnerOfProject(projectIdentifier, username)
         projectService.deleteProject(projectIdentifier)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -39,6 +47,8 @@ class ProjectController(private val projectService: ProjectService) {
     @PutMapping("/projects/{projectIdentifier}")
     fun updateProject(@PathVariable projectIdentifier: String,
                       @RequestBody projectUpdateDto: ProjectUpdateDto): ResponseEntity<Void> {
+        val username = SecurityContextHolder.getContext().authentication.name
+        projectService.isUserOwnerOfProject(projectIdentifier, username)
         projectService.updateProject(projectIdentifier, projectUpdateDto)
         return ResponseEntity(HttpStatus.OK)
     }

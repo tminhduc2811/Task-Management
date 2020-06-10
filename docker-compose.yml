@@ -10,8 +10,6 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8080
-    environment:
-      - "SPRING_PROFILES_ACTIVE=prod"
     ports:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
@@ -38,10 +36,10 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "3307:3306"
+      - "3308:3306"
     command: --init-file /data/application/init.sql
     volumes:
-      - ./db.sql:/data/application/init.sql
+      - ./init.sql:/data/application/init.sql
     restart: always
     environment:
       MYSQL_DATABASE: 'task-management'

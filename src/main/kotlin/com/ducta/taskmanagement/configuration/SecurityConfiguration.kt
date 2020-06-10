@@ -6,7 +6,6 @@ import com.ducta.taskmanagement.util.jwtUtil.JwtFilter
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.BeanIds
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -40,9 +39,10 @@ class SecurityConfiguration(
     fun corsConfigurationSource(): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("*")
-        configuration.allowedMethods = listOf("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH")
+        configuration.allowedMethods = listOf("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
         configuration.allowCredentials = true
-        configuration.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type")
+        configuration.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type", "Origin", "X-Auth-Token")
+//        configuration.allowedHeaders = listOf("*")
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
@@ -60,7 +60,7 @@ class SecurityConfiguration(
 
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
-                .cors()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/users/login").permitAll()

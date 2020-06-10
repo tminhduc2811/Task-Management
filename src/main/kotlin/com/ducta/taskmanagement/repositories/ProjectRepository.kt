@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProjectRepository: JpaRepository<Project, String> {
 
-    @Query("SELECT p FROM Project p WHERE p.user.id=:userId")
-    fun findAllProjectsByUserId(@Param("userId") userId: Long): List<Project>
+    @Query("SELECT p FROM Project p WHERE p.user.username=:username")
+    fun findAllProjectsByUsername(@Param("username") username: String): List<Project>
+
+    @Query("SELECT COUNT(p)>0 FROM Project p WHERE p.projectIdentifier=:projectIdentifier")
+    fun isProjectExist(@Param("projectIdentifier") projectIdentifier: String): Boolean
+
+    @Query("SELECT COUNT(p)>0 FROM Project p WHERE p.user.username=:username AND p.projectIdentifier=:projectIdentifier")
+    fun isUserOwnerOfProject(@Param("username") username: String, @Param("projectIdentifier") projectIdentifier: String): Boolean
 }

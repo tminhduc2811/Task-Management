@@ -30,7 +30,7 @@ class JwtFilter(private val jwtTokenProvider: JwtTokenProvider,
                 }
             }
         } catch (ex: Exception) {
-            throw AccessDeniedException("Authentication failed")
+            throw ex
         }
         filterChain.doFilter(request, response)
     }

@@ -62,6 +62,19 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         ), HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
+
+    @ExceptionHandler(ProjectAccessDeniedException::class)
+    fun handleProjectAccessDeniedException(ex: ProjectAccessDeniedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
+                Date(),
+                400,
+                "Bad request",
+                ex.message!!,
+                request.requestURI
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
     @ExceptionHandler(ProjectAlreadyExistsException::class)
     fun handleProjectAlreadyExists(ex: ProjectAlreadyExistsException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
