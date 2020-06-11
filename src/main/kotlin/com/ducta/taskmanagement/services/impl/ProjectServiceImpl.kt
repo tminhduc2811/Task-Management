@@ -14,7 +14,6 @@ import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.ProjectService
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -27,9 +26,6 @@ class ProjectServiceImpl(
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
                 .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
-//        if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
-//            throw ProjectInvalidDateException()
-//        }
 
         val user: User = userRepository.findUserByUsername(username).map { user -> user }
                 .orElseThrow { throw Exception("User not found") }

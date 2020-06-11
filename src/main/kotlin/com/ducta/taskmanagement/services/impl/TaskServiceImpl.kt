@@ -4,5 +4,4 @@ import com.ducta.taskmanagement.services.TaskService
 import org.springframework.stereotype.Service
 
 @Service
-class TaskServiceImpl: TaskService {
-}
+class TaskServiceImpl: TaskService

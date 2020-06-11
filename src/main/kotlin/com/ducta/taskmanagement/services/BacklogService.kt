@@ -1,6 +1,5 @@
 package com.ducta.taskmanagement.services
 
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
 import com.ducta.taskmanagement.dto.TaskCreateDto
 import com.ducta.taskmanagement.dto.TaskDto
 

@@ -1,6 +1,5 @@
 package com.ducta.taskmanagement.security
 
-import com.ducta.taskmanagement.exceptions.ProjectAccessDeniedException
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import org.springframework.security.core.Authentication

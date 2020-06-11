@@ -19,7 +19,7 @@ annotation class DateConstraint(
 
 class DateValidator : ConstraintValidator<DateConstraint, String> {
     override fun isValid(inputDate: String?, context: ConstraintValidatorContext?): Boolean {
-        val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         return try {
             dateFormat.parse(inputDate)
             true
