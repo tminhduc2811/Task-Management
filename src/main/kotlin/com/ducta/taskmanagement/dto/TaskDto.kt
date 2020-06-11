@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.dto
 
+import com.ducta.taskmanagement.util.validator.DateConstraint
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
@@ -25,7 +26,10 @@ data class TaskCreateDto(
         val summary: String,
         @get:NotBlank(message = "Acceptance criteria is required")
         val acceptanceCriteria: String,
+        @get:NotBlank
         val status: String,
+        @get:NotBlank
         val priority: String,
+        @DateConstraint
         val dueDate: LocalDate
 )
