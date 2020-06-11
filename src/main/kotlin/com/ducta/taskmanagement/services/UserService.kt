@@ -8,7 +8,7 @@ import com.ducta.taskmanagement.dto.UserRegisterDto
 interface UserService {
     fun getUserByUsername(username: String): UserDto
 
-    fun registerUser(userRegisterDto: UserRegisterDto)
+    fun registerUser(userRegisterDto: UserRegisterDto): AuthenticatedUserDto
 
     fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto
 }

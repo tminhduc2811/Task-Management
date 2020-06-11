@@ -20,9 +20,8 @@ class UserController(private val userService: UserService) {
     }
 
     @PostMapping("/users/register")
-    fun registerUser(@Valid @RequestBody userRegisterDto: UserRegisterDto): ResponseEntity<Void> {
-        userService.registerUser(userRegisterDto)
-        return ResponseEntity(HttpStatus.CREATED)
+    fun registerUser(@Valid @RequestBody userRegisterDto: UserRegisterDto): ResponseEntity<AuthenticatedUserDto> {
+        return ResponseEntity(userService.registerUser(userRegisterDto), HttpStatus.CREATED)
     }
 
     @PostMapping("/users/login")

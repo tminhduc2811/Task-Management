@@ -27,7 +27,7 @@ class UserServiceImpl(private val userRepository: UserRepository,
         return userRepository.findUserByUsername(username).map { user -> user.toDTO() }.orElseThrow { UserNotFoundException(username) }
     }
 
-    override fun registerUser(userRegisterDto: UserRegisterDto) {
+    override fun registerUser(userRegisterDto: UserRegisterDto): AuthenticatedUserDto {
         if (userRepository.isUsernameExist(userRegisterDto.username)) {
             throw UserAlreadyExistsException(userRegisterDto.username)
         }
@@ -41,6 +41,16 @@ class UserServiceImpl(private val userRepository: UserRepository,
                 password = passwordEncoder.encode(userRegisterDto.password)
         )
         userRepository.save(user)
+        val authentication: Authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                        user.username,
+                        userRegisterDto.password
+                )
+        )
+        return AuthenticatedUserDto(
+                user.username,
+                jwtTokenProvider.generateToken(authentication)
+        )
     }
 
     override fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto {
