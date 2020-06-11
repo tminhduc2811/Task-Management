@@ -27,9 +27,9 @@ class ProjectServiceImpl(
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
                 .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
-        if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
-            throw ProjectInvalidDateException()
-        }
+//        if (projectCreateDto.startDate.isAfter(projectCreateDto.endDate)) {
+//            throw ProjectInvalidDateException()
+//        }
 
         val user: User = userRepository.findUserByUsername(username).map { user -> user }
                 .orElseThrow { throw Exception("User not found") }

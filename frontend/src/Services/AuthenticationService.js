@@ -12,8 +12,8 @@ const login = (userCredentials) => {
     .post("/users/login", userCredentials)
     // .then(handleResponse)
     .then((rs) => {
-      localStorage.setItem("authInfo", JSON.stringify(rs));
-      authInfoSubject.next(rs);
+      localStorage.setItem("authInfo", JSON.stringify(rs.data));
+      authInfoSubject.next(rs.data);
       return rs;
     }, err => {
       console.log(err.response)

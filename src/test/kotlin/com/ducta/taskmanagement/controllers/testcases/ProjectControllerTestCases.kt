@@ -17,24 +17,24 @@ class ProjectControllerTestCases {
              "existed project example",
              "KOTL1",
              "demo case existed project",
-             LocalDate.of(2020, 10, 2),
-             LocalDate.of(2021, 11, 2)
+             "2020-10-02",
+             "2020-11-02"
      )
 
      fun getTestCaseProjectInvalidDate(): ProjectCreateDto = ProjectCreateDto(
              "Project example",
              "DOC25",
              "demo case bad date",
-             LocalDate.of(2020, 10, 2),
-             LocalDate.of(2020, 5, 2)
+             "2020-10-02",
+             "2020-05-02"
      )
 
      fun getTestCaseAddNonExistedProject(): ProjectCreateDto = ProjectCreateDto(
              "non-existed project example",
              "KOTL2",
              "demo case non-existed project",
-             LocalDate.of(2020, 10, 2),
-             LocalDate.of(2021, 11, 2)
+             "2020-10-02",
+             "2020-11-02"
      )
 
      fun getTestCaseDeleteNonExistedProject(): String = "TEST1"

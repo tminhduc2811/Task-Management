@@ -36,6 +36,7 @@ class LoginPage extends React.Component {
                                 user => {
                                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                                     this.props.history.push(from);
+                                    setSubmitting(false);
                                 },
                                 error => {
                                     setSubmitting(false);

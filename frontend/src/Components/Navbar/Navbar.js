@@ -1,7 +1,15 @@
 import React from 'react';
 import './Navbar.css';
+import { Link, NavLink } from 'react-router-dom';
+import { authenticationService } from '../../Services/AuthenticationService';
+import { history } from '../../helpers/history';
 
 const Navbar = () => {
+
+    const logout = () => {
+        authenticationService.logout();
+        history.push("/login");
+    }
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-primary">
             <a className="navbar-brand" href>Project Management Tool</a>
@@ -16,10 +24,7 @@ const Navbar = () => {
                 </ul>
                 <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li>
-                        <a className="nav-item" href>Sign Up</a>
-                    </li>
-                    <li>
-                        <a className="nav-item" href>Login</a>
+                        <a className="nav-item nav-link" onClick={logout}>Log out</a>
                     </li>
                 </ul>
             </div>

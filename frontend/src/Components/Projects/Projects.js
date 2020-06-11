@@ -1,14 +1,20 @@
-import React from 'react'
-import ProjectItem from './ProjectItem/ProjectItem';
+import React from "react";
+import ProjectItem from "./ProjectItem/ProjectItem";
 
 const Projects = (props) => {
-    return(
-        <div>
-            <ProjectItem></ProjectItem>
-            <ProjectItem></ProjectItem>
-            <ProjectItem></ProjectItem>
-        </div>
-    );
-}
+  return (
+    <div>
+      {props.projects.map((project, index) => {
+        return (
+          <ProjectItem
+            project={project}
+            key={project.projectIdentifier}
+            deleteProject={props.deleteProject}
+          ></ProjectItem>
+        );
+      })}
+    </div>
+  );
+};
 
 export default Projects;

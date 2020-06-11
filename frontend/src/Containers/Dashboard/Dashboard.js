@@ -1,37 +1,67 @@
 import React, { Component } from "react";
-import Projects from '../../Components/Projects/Projects';
+import Projects from "../../Components/Projects/Projects";
+import axios from "../../axios";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import { authenticationService } from "../../Services/AuthenticationService";
+import * as Yup from "yup";
+import { history } from "../../helpers/history";
+import ProjectForm from "../../Components/Forms/ProjectForm";
+import handleResponse from "../../helpers/handle-authorization";
+import ProjecModal from "../../Components/Modal/ProjectModal";
 
 class Dashboard extends Component {
-    render() {
-        return(
-            <div className="container-fluid">
-                <h1>Projects</h1>
-                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Create a project</button>
-                <Projects></Projects>
-                // modal
-            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="staticBackdropLabel">Create Project</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                <div class="modal-body">
-                    ...implement later
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Submit</button>
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
-        );
-    }
+  state = {
+    isLoaded: false,
+    projects: [],
+  };
+
+  componentDidMount() {
+    this.getProject();
+  }
+
+  getProject() {
+    axios.get("/projects").then((response) => {
+      console.log("fetch rs ", response);
+      this.setState({
+        ...this.state,
+        isLoaded: true,
+        projects: response.data ? response.data : [],
+      });
+    }, error => {
+        handleResponse(error);
+    });
+  }
+
+  render() {
+    const deleteProject = (projectIdentifier) => {
+      if (this.state.projects) {
+        axios.delete("/projects/" + projectIdentifier).then((rs) => {
+          this.getProject();
+        });
+      }
+    };
+
+    return (
+      <div className="container-fluid">
+        <h1>Projects</h1>
+        <button
+          type="button"
+          className="btn btn-success"
+          data-toggle="modal"
+          data-target="#staticBackdrop"
+        >
+          Create a project
+        </button>
+        {this.state.isLoaded && (
+          <Projects
+            projects={this.state.projects}
+            deleteProject={deleteProject}
+          ></Projects>
+        )}
+        <ProjecModal></ProjecModal>
+      </div>
+    );
+  }
 }
 
 export default Dashboard;
-

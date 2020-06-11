@@ -35,7 +35,7 @@ class UserServiceImpl(private val userRepository: UserRepository,
         if (userRepository.isEmailExist(userRegisterDto.email)) {
             throw EmailAlreadyExistsException(userRegisterDto.email)
         }
-        val user: User = User(
+        val user = User(
                 username = userRegisterDto.username,
                 email = userRegisterDto.email,
                 fullName = userRegisterDto.fullName,

@@ -1,5 +1,6 @@
 package com.ducta.taskmanagement.exceptions
 
+import com.ducta.taskmanagement.util.reflectionUtil.ReflectionUtil
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
@@ -26,10 +27,21 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         val errors: MutableMap<String, String?>? = hashMapOf()
         ex.bindingResult.allErrors.forEach(
                 Consumer { error: ObjectError ->
-                    val fieldName = (error as FieldError).field
-                    val errorMessage = error.defaultMessage
-                    errors?.set(fieldName, errorMessage)
-                })
+                    // Field errors
+                    if (error is FieldError) {
+                        val fieldName = error.field
+                        val errorMessage = error.defaultMessage
+                        errors?.set(fieldName, errorMessage)
+                    } else {
+                        // Object error
+                        for (i in error.arguments!!.indices) {
+                            if (i != 0) {
+                                errors?.set(error.arguments!![i].toString(), error.defaultMessage)
+                            }
+                        }
+                    }
+                }
+        )
         val errorDetails = ErrorDetails(
                 Date(),
                 400,

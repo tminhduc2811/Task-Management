@@ -30,6 +30,7 @@ class App extends Component {
   logout() {
     authenticationService.logout();
     history.push("/login");
+    window.location.reload(false);
   }
 
   render() {
@@ -48,7 +49,7 @@ const defaultContainer = () => (
   <div className="app">
     <Layout>
       <Route path="/"  component={Dashboard} />
-      <Route path="/" component={Projects}/>
+      {/* <Route path="/" component={Projects}/> */}
     </Layout>
   </div>
 );

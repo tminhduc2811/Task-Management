@@ -1,5 +1,7 @@
 package com.ducta.taskmanagement.dto
 
+import com.ducta.taskmanagement.util.validator.DateConstraint
+import com.ducta.taskmanagement.util.validator.DurationConstraint
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
@@ -17,6 +19,10 @@ data class ProjectDto(
         val userId: Long
 )
 
+@DurationConstraint(
+        startDate = "startDate",
+        endDate = "endDate"
+)
 data class ProjectCreateDto(
         @get:NotBlank
         val projectName: String,
@@ -25,13 +31,17 @@ data class ProjectCreateDto(
         val projectIdentifier: String,
         @get:NotBlank
         val description: String,
-        val startDate: LocalDate,
-        val endDate: LocalDate
+        @DateConstraint
+        val startDate: String,
+        @DateConstraint
+        val endDate: String
 )
 
 data class ProjectUpdateDto(
         val projectName: String,
         val description: String,
+        @DateConstraint
         val startDate: LocalDate,
+        @DateConstraint
         val endDate: LocalDate
 )

@@ -63,8 +63,8 @@ data class Project(
                 projectName = dto.projectName,
                 projectIdentifier = dto.projectIdentifier,
                 description = dto.description,
-                startDate = dto.startDate,
-                endDate = dto.endDate,
+                startDate = LocalDate.parse(dto.startDate),
+                endDate = LocalDate.parse(dto.startDate),
                 createdAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now()
         )
