@@ -12,14 +12,14 @@ class BacklogControllerTestCases {
                         "Acceptance criteria",
                         "TODO",
                         "HIGH",
-                        LocalDate.of(2020, 10, 10)
+                        "2020-10-10"
                 ),
                 TaskCreateDto(
                         "Task 2",
                         "Acceptance criteria",
                         "DOING",
                         "LOW",
-                        LocalDate.of(2020, 8, 8)
+                        "2020-08-08"
                 )
         ))
 
@@ -30,7 +30,7 @@ class BacklogControllerTestCases {
                         "Acceptance criteria",
                         "TODO",
                         "HIGH",
-                        LocalDate.of(2020, 10, 10)
+                        "2020-10-10"
                 )
         )
 
@@ -41,7 +41,7 @@ class BacklogControllerTestCases {
                         "Acceptance criteria",
                         "BAD_STATUS",
                         "HIGH",
-                        LocalDate.of(2020, 10, 10)
+                        "2020-10-10"
                 )
         )
 
@@ -51,7 +51,7 @@ class BacklogControllerTestCases {
                         "Acceptance criteria",
                         "TODO",
                         "HIGH",
-                        LocalDate.of(2020, 12, 12)
+                        "2020-12-10"
                 )
         )
 
@@ -61,7 +61,7 @@ class BacklogControllerTestCases {
                     "Acceptance criteria",
                     "BAD_STATUS",
                     "HIGH",
-                    LocalDate.of(2020, 12, 12)
+                    "2020-10-10"
             )
         )
     }

@@ -14,6 +14,7 @@ import com.ducta.taskmanagement.repositories.BacklogRepository
 import com.ducta.taskmanagement.repositories.TaskRepository
 import com.ducta.taskmanagement.services.BacklogService
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -74,9 +75,10 @@ class BacklogServiceImpl(
                 updatedAt = LocalDateTime.now(),
                 priority = Priority.valueOf(taskUpdateDto.priority),
                 status = Status.valueOf(taskUpdateDto.status),
-                dueDate = taskUpdateDto.dueDate,
+                dueDate = LocalDate.parse(taskUpdateDto.dueDate),
                 acceptanceCriteria = taskUpdateDto.acceptanceCriteria
         )
+        updatedTask.backlog = task.backlog
         taskRepository.save(updatedTask)
     }
 }

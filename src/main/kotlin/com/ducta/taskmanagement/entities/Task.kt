@@ -66,7 +66,7 @@ data class Task(
                 acceptanceCriteria = taskCreateDto.acceptanceCriteria,
                 status = Status.valueOf(taskCreateDto.status),
                 priority = Priority.valueOf(taskCreateDto.priority),
-                dueDate = taskCreateDto.dueDate
+                dueDate = LocalDate.parse(taskCreateDto.dueDate)
         )
     }
 }

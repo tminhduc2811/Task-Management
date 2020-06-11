@@ -28,5 +28,5 @@ data class TaskCreateDto(
         @get:NotBlank
         val priority: String,
         @DateConstraint
-        val dueDate: LocalDate
+        val dueDate: String
 )
