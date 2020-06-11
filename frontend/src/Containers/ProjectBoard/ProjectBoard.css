@@ -1,0 +1,14 @@
+.wrapper {
+    margin: 20px;
+}
+.tasks-header {
+    font-size: 25px !important;
+    cursor: default !important;
+}
+.card {
+    margin-top: 10px;
+}
+
+/* button{
+    margin: 15px !important;
+} */

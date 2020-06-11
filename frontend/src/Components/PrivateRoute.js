@@ -9,7 +9,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
         console.log('auth ', authenticationService.authInfoValue)
         if (!authInfo) {
             // not logged in so redirect to login page with the return url
-            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+            return <Redirect to="/login" />
         }
 
         // authorised so return component

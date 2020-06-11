@@ -3,11 +3,12 @@ import "./App.css";
 import LoginPage from "./Containers/LoginPage/LoginPage";
 import { authenticationService } from "./Services/AuthenticationService";
 import { history } from "./helpers/history";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/PrivateRoute";
 import Dashboard from "./Containers/Dashboard/Dashboard";
 import Projects from "./Components/Projects/Projects";
 import Layout from "./Components/Layout/Layout";
+import ProjectBoard from "./Containers/ProjectBoard/ProjectBoard";
 
 class App extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class App extends Component {
 
     return (
       <Router history={history}>
-        <PrivateRoute exact path="/" component={defaultContainer} />
+      <PrivateRoute path="/" component={defaultContainer} />
         <Route path="/login" component={LoginPage} />
       </Router>
     );
@@ -48,8 +49,10 @@ class App extends Component {
 const defaultContainer = () => (
   <div className="app">
     <Layout>
-      <Route path="/"  component={Dashboard} />
-      {/* <Route path="/" component={Projects}/> */}
+      <Switch>
+        <Route path="/projects/:projectIdentifier" component={ProjectBoard} />
+        <Route path="/" component={Dashboard} />
+      </Switch>
     </Layout>
   </div>
 );

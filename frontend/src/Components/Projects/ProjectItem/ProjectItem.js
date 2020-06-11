@@ -1,5 +1,6 @@
 import React from "react";
 import "./ProjectItem.css";
+import { NavLink, Link } from "react-router-dom";
 
 const ProjectItem = (props) => {
   return (
@@ -15,10 +16,20 @@ const ProjectItem = (props) => {
           <div className="row">{props.project.description}</div>
         </div>
         <div className="col-md-2 text-left">
-          <button type="button" className="btn btn-info btn-dashboard">
-            Project board
-          </button>
-          <button type="button" className="btn btn-success btn-dashboard" data-toggle="modal" data-target="#staticBackdropUpdate" onClick={() => props.loadModal(props.project.projectIdentifier)}>
+          <Link to={"projects/" + props.project.projectIdentifier}>
+            <button
+              type="button"
+              className="btn btn-info btn-dashboard"
+            >Project Board</button>
+          </Link>
+
+          <button
+            type="button"
+            className="btn btn-success btn-dashboard"
+            data-toggle="modal"
+            data-target="#staticBackdropUpdate"
+            onClick={() => props.loadModal(props.project.projectIdentifier)}
+          >
             Update project
           </button>
           <button
