@@ -44,7 +44,7 @@ class ProjectController(private val projectService: ProjectService) {
 
     @PutMapping("/projects/{projectIdentifier}")
     fun updateProject(@PathVariable projectIdentifier: String,
-                      @RequestBody projectUpdateDto: ProjectUpdateDto): ResponseEntity<Void> {
+                      @RequestBody @Valid projectUpdateDto: ProjectUpdateDto): ResponseEntity<Void> {
         val username = SecurityContextHolder.getContext().authentication.name
         projectService.isUserOwnerOfProject(projectIdentifier, username)
         projectService.updateProject(projectIdentifier, projectUpdateDto)

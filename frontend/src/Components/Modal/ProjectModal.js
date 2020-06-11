@@ -8,31 +8,31 @@ import axios from '../../axios';
 const ProjecModal = (props) => {
     return(
         <div
-          class="modal fade"
+          className="modal fade"
           id="staticBackdrop"
           data-backdrop="static"
           data-keyboard="false"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="staticBackdropLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title" id="staticBackdropLabel">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3 className="modal-title" id="staticBackdropLabel">
                   Create Project
                 </h3>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <Formik
                   initialValues={{
                     projectIdentifier: "",

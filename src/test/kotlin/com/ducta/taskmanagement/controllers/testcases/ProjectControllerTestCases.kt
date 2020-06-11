@@ -45,8 +45,8 @@ class ProjectControllerTestCases {
              mapOf("KOTL1" to ProjectUpdateDto(
                      "project KOTL1 updated name",
                      "new description",
-                     LocalDate.of(2020, 12, 12),
-                     LocalDate.of(2021, 1, 1)
+                     "2020-12-12",
+                     "2020-12-22"
              ))
  }
 

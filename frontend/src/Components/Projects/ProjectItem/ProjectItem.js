@@ -18,7 +18,7 @@ const ProjectItem = (props) => {
           <button type="button" className="btn btn-info btn-dashboard">
             Project board
           </button>
-          <button type="button" className="btn btn-success btn-dashboard">
+          <button type="button" className="btn btn-success btn-dashboard" data-toggle="modal" data-target="#staticBackdropUpdate" onClick={() => props.loadModal(props.project.projectIdentifier)}>
             Update project
           </button>
           <button

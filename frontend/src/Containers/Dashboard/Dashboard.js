@@ -8,11 +8,19 @@ import { history } from "../../helpers/history";
 import ProjectForm from "../../Components/Forms/ProjectForm";
 import handleResponse from "../../helpers/handle-authorization";
 import ProjecModal from "../../Components/Modal/ProjectModal";
+import ProjecUpdateModal from "../../Components/Modal/ProjectUpdateModal";
 
 class Dashboard extends Component {
   state = {
     isLoaded: false,
     projects: [],
+    target: {
+      projectIdentifier: "",
+      projectName: "",
+      description: "",
+      startDate: "",
+      endDate: ""
+    }
   };
 
   componentDidMount() {
@@ -32,6 +40,8 @@ class Dashboard extends Component {
     });
   }
 
+
+
   render() {
     const deleteProject = (projectIdentifier) => {
       if (this.state.projects) {
@@ -40,7 +50,15 @@ class Dashboard extends Component {
         });
       }
     };
-
+    const loadModal = (projectIdentifier) => {
+      if(this.state.projects) {
+        console.log('aaa', projectIdentifier)
+        const project = this.state.projects.filter(el => el.projectIdentifier === projectIdentifier)[0]
+        console.log(project)
+        this.setState({...this.state, target: project})
+        console.log('test here ', this.state)
+      }
+    }
     return (
       <div className="container-fluid">
         <h1>Projects</h1>
@@ -56,9 +74,11 @@ class Dashboard extends Component {
           <Projects
             projects={this.state.projects}
             deleteProject={deleteProject}
+            loadModal={loadModal}
           ></Projects>
         )}
         <ProjecModal></ProjecModal>
+        <ProjecUpdateModal project={this.state.target} keyValue={this.state.target.projectIdentifier}></ProjecUpdateModal>
       </div>
     );
   }

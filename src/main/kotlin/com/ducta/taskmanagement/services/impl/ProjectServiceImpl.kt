@@ -15,6 +15,7 @@ import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -65,15 +66,12 @@ class ProjectServiceImpl(
     override fun updateProject(projectIdentifier: String, projectUpdateDto: ProjectUpdateDto) {
         projectRepository.findById(projectIdentifier)
                 .map { project ->
-                    if (projectUpdateDto.startDate.isAfter(projectUpdateDto.endDate)) {
-                        throw ProjectInvalidDateException()
-                    }
                     val updatedProject: Project = project
                             .copy(
                                     projectName = projectUpdateDto.projectName,
                                     description = projectUpdateDto.description,
-                                    startDate = projectUpdateDto.startDate,
-                                    endDate = projectUpdateDto.endDate,
+                                    startDate = LocalDate.parse(projectUpdateDto.startDate),
+                                    endDate = LocalDate.parse(projectUpdateDto.endDate),
                                     updatedAt = LocalDateTime.now()
                             )
                     updatedProject.backlog = project.backlog
@@ -85,8 +83,6 @@ class ProjectServiceImpl(
     override fun isUserOwnerOfProject(projectIdentifier: String, username: String) {
         projectRepository.findById(projectIdentifier).ifPresent {
             if (it.user!!.username != username) {
-                println(username)
-                println(it.user!!.username)
                 throw ProjectAccessDeniedException(projectIdentifier)
             }
         }

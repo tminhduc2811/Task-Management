@@ -10,6 +10,7 @@ const Projects = (props) => {
             project={project}
             key={project.projectIdentifier}
             deleteProject={props.deleteProject}
+            loadModal={props.loadModal}
           ></ProjectItem>
         );
       })}

@@ -28,7 +28,7 @@ class DurationValidator : ConstraintValidator<DurationConstraint, Any> {
         this.startDate = constraintAnnotation.startDate
         this.endDate = constraintAnnotation.endDate
     }
-    override fun isValid(value: Any, p1: ConstraintValidatorContext?): Boolean {
+    override fun isValid(value: Any, context: ConstraintValidatorContext): Boolean {
         val startDateValue = BeanWrapperImpl(value).getPropertyValue(startDate)
         val endDateValue = BeanWrapperImpl(value).getPropertyValue(endDate)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -40,6 +40,8 @@ class DurationValidator : ConstraintValidator<DurationConstraint, Any> {
             }
             return false
         } catch (ex: Exception) {
+            context.disableDefaultConstraintViolation()
+            context.buildConstraintViolationWithTemplate("Invalid date format, must be YYYY-MM-dd").addConstraintViolation()
             return false
         }
     }

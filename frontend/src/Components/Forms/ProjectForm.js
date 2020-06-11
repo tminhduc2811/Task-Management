@@ -100,7 +100,7 @@ const ProjectForm = (props) => {
         >
           Submit
         </button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
+        <button type="button" className="btn btn-danger" data-dismiss="modal">
           Close
         </button>
         {isSubmitting && (
