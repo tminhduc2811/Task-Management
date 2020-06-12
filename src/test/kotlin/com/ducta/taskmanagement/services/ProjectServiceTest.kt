@@ -1,7 +1,6 @@
 package com.ducta.taskmanagement.services
 
 import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.entities.Project
 import com.ducta.taskmanagement.exceptions.ProjectAccessDeniedException
 import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
 import com.ducta.taskmanagement.repositories.ProjectRepository
