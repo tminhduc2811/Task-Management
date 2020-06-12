@@ -50,28 +50,6 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
-//
-//    override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
-//        return ResponseEntity(ErrorDetails(
-//                Date(),
-//                404,
-//                "Not found",
-//                "No mapping for ${(request as ServletWebRequest).request.requestURI}",
-//                request.request.requestURI
-//        ), HttpStatus.NOT_FOUND)
-//    }
-
-//    @ExceptionHandler(RuntimeException::class)
-//    fun handleRuntimeException(e: RuntimeException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-//        return ResponseEntity(ErrorDetails(
-//                Date(),
-//                500,
-//                "Internal server error",
-//                e.message.toString(),
-//                request.requestURI
-//        ), HttpStatus.INTERNAL_SERVER_ERROR)
-//    }
-
 
     @ExceptionHandler(EntityAccessDeniedException::class)
     fun handleEntityAccessDeniedException(ex: EntityAccessDeniedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
@@ -98,7 +76,7 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(EntityNotFoundException::class)
-    fun handleEntitytNotFoundException(ex: EntityNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+    fun handleEntityNotFoundException(ex: EntityNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
