@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.controllers
 
 import com.ducta.taskmanagement.controllers.testcases.ProjectControllerTestCases
-import com.ducta.taskmanagement.dto.AuthenticatedUserDto
-import com.ducta.taskmanagement.dto.ProjectDto
+import com.ducta.taskmanagement.domain.dto.AuthenticatedUserDto
+import com.ducta.taskmanagement.domain.dto.ProjectDto
 import com.ducta.taskmanagement.exceptions.ErrorDetails
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -63,7 +63,7 @@ class ProjectControllerTest {
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project with id: ${createProjectDto.projectIdentifier} already exists", responseEntity.body!!.details)
+        Assertions.assertEquals("Project Identifier already existed", responseEntity.body!!.details)
     }
 
     @Test
@@ -88,7 +88,7 @@ class ProjectControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET, HttpEntity(null, headers))
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project with id: $projectIdentifier not found", responseEntity.body!!.details)
+        Assertions.assertEquals("Project $projectIdentifier not found", responseEntity.body!!.details)
     }
 
     @Test

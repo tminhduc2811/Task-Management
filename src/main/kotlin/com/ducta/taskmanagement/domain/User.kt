@@ -1,6 +1,6 @@
-package com.ducta.taskmanagement.entities
+package com.ducta.taskmanagement.domain
 
-import com.ducta.taskmanagement.dto.UserDto
+import com.ducta.taskmanagement.domain.dto.UserDto
 import javax.persistence.*
 
 @Entity

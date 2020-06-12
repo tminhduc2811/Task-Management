@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.services.testcases
 
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.entities.Project
-import com.ducta.taskmanagement.entities.User
+import com.ducta.taskmanagement.domain.dto.ProjectDto
+import com.ducta.taskmanagement.domain.Project
+import com.ducta.taskmanagement.domain.User
 import java.time.LocalDate
 import java.time.LocalDateTime
 

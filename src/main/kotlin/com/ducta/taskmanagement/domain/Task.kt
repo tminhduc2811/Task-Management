@@ -1,7 +1,7 @@
-package com.ducta.taskmanagement.entities
+package com.ducta.taskmanagement.domain
 
-import com.ducta.taskmanagement.dto.TaskCreateDto
-import com.ducta.taskmanagement.dto.TaskDto
+import com.ducta.taskmanagement.domain.dto.TaskCreateDto
+import com.ducta.taskmanagement.domain.dto.TaskDto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -32,7 +32,7 @@ data class Task(
         val priority: Priority = Priority.LOW,
 
         @Column(name = "due_date")
-        var dueDate: LocalDate = LocalDate.now(),
+        var dueDate: LocalDate? = null,
 
         @Column(name = "created_at")
         var createdAt: LocalDateTime = LocalDateTime.now(),

@@ -1,14 +1,11 @@
 package com.ducta.taskmanagement.services.impl
 
-import com.ducta.taskmanagement.dto.AuthenticatedUserDto
-import com.ducta.taskmanagement.dto.UserCredentials
-import com.ducta.taskmanagement.dto.UserDto
-import com.ducta.taskmanagement.dto.UserRegisterDto
-import com.ducta.taskmanagement.entities.User
-import com.ducta.taskmanagement.exceptions.AuthenticationException
-import com.ducta.taskmanagement.exceptions.EmailAlreadyExistsException
-import com.ducta.taskmanagement.exceptions.UserAlreadyExistsException
-import com.ducta.taskmanagement.exceptions.UserNotFoundException
+import com.ducta.taskmanagement.domain.dto.AuthenticatedUserDto
+import com.ducta.taskmanagement.domain.dto.UserCredentials
+import com.ducta.taskmanagement.domain.dto.UserDto
+import com.ducta.taskmanagement.domain.dto.UserRegisterDto
+import com.ducta.taskmanagement.domain.User
+import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.UserService
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
@@ -17,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.lang.Exception
 
 @Service
 class UserServiceImpl(private val userRepository: UserRepository,
@@ -24,15 +22,16 @@ class UserServiceImpl(private val userRepository: UserRepository,
                       private val authenticationManager: AuthenticationManager,
                       private val jwtTokenProvider: JwtTokenProvider) : UserService {
     override fun getUserByUsername(username: String): UserDto {
-        return userRepository.findUserByUsername(username).map { user -> user.toDTO() }.orElseThrow { UserNotFoundException(username) }
+        return userRepository.findUserByUsername(username).map { user -> user.toDTO() }
+                .orElseThrow { EntityNotFoundException("User not found") }
     }
 
     override fun registerUser(userRegisterDto: UserRegisterDto) {
         if (userRepository.isUsernameExist(userRegisterDto.username)) {
-            throw UserAlreadyExistsException(userRegisterDto.username)
+            throw EntityAlreadyExistedException("Username: ${userRegisterDto.username} already existed")
         }
         if (userRepository.isEmailExist(userRegisterDto.email)) {
-            throw EmailAlreadyExistsException(userRegisterDto.email)
+            throw EntityAlreadyExistedException("Email: ${userRegisterDto.email} already existed")
         }
         val user = User(
                 username = userRegisterDto.username,
@@ -40,10 +39,12 @@ class UserServiceImpl(private val userRepository: UserRepository,
                 fullName = userRegisterDto.fullName,
                 password = passwordEncoder.encode(userRegisterDto.password)
         )
+
         userRepository.save(user)
     }
 
     override fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto {
+        try {
             val authentication: Authentication = authenticationManager.authenticate(
                     UsernamePasswordAuthenticationToken(
                             userCredentials.username,
@@ -54,5 +55,8 @@ class UserServiceImpl(private val userRepository: UserRepository,
                     userCredentials.username,
                     jwtTokenProvider.generateToken(authentication)
             )
+        } catch (ex: Exception) {
+            throw AuthenticationException()
+        }
     }
 }

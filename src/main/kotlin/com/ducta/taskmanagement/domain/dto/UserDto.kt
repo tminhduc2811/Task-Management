@@ -1,8 +1,8 @@
-package com.ducta.taskmanagement.dto
+package com.ducta.taskmanagement.domain.dto
 
-import com.ducta.taskmanagement.util.validator.EmailConstraint
-import com.ducta.taskmanagement.util.validator.PasswordConstraint
+import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 data class UserDto(
@@ -17,9 +17,9 @@ data class UserRegisterDto(
         @get:NotBlank
         @get:Size(min = 4, max = 20)
         val username: String,
-        @EmailConstraint
+        @get:Email(message = "Invalid email")
         val email: String,
-        @PasswordConstraint
+        @get:Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,40}\$", message = "Your password is not strong enough")
         val password: String,
         @get:NotBlank
         val fullName: String

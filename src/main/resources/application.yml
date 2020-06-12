@@ -1,7 +1,0 @@
-# Spring profile for development environment
-spring.profiles: development
-spring.profiles.include: development, common
----
-# Spring profile for production environment
-spring.profiles: production
-spring.profiles.include: production, common

@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.services
 
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.exceptions.ProjectAccessDeniedException
-import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
+import com.ducta.taskmanagement.domain.dto.ProjectDto
+import com.ducta.taskmanagement.exceptions.EntityAccessDeniedException
+import com.ducta.taskmanagement.exceptions.EntityNotFoundException
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.impl.ProjectServiceImpl
@@ -50,10 +50,10 @@ class ProjectServiceTest {
         Assertions.assertDoesNotThrow() {
             projectService.isUserOwnerOfProject(nonExistProjectId, nonExistUser)
         }
-        val exception = Assertions.assertThrows(ProjectAccessDeniedException::class.java) {
+        val exception = Assertions.assertThrows(EntityAccessDeniedException::class.java) {
             projectService.isUserOwnerOfProject(existProjectId, nonExistUser)
         }
-        Assertions.assertEquals(ProjectAccessDeniedException(existProjectId).message, exception.message)
+        Assertions.assertEquals(EntityAccessDeniedException().message, exception.message)
         Assertions.assertDoesNotThrow() {
             projectService.isUserOwnerOfProject(existProjectId, username)
         }
@@ -67,10 +67,10 @@ class ProjectServiceTest {
         Assertions.assertDoesNotThrow() {
             projectService.deleteProject(existProjectId)
         }
-        val exception = Assertions.assertThrows(ProjectNotFoundException::class.java) {
+        val exception = Assertions.assertThrows(EntityNotFoundException::class.java) {
             projectService.deleteProject(nonExistProjectId)
         }
-        Assertions.assertEquals(ProjectNotFoundException(nonExistProjectId).message, exception.message)
+        Assertions.assertEquals(EntityNotFoundException("Project $nonExistProjectId not found").message, exception.message)
     }
 
     @DisplayName("Test getProjectByProjectIdentifier service")
@@ -87,10 +87,10 @@ class ProjectServiceTest {
 
         // Case 2: Project doesn't exist
         val nonExistProjectId = ProjectServiceTestCases.getNonExistProject().projectIdentifier
-        val exception = Assertions.assertThrows(ProjectNotFoundException::class.java) {
+        val exception = Assertions.assertThrows(EntityNotFoundException::class.java) {
             projectService.getProjectByProjectIdentifier(nonExistProjectId)
         }
-        Assertions.assertEquals(ProjectNotFoundException(nonExistProjectId).message, exception.message)
+        Assertions.assertEquals(EntityNotFoundException("Project $nonExistProjectId not found").message, exception.message)
     }
 
     @DisplayName("Test getAllProjectsByUsername service")

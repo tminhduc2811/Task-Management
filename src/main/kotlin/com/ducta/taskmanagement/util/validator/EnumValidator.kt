@@ -1,7 +1,7 @@
 package com.ducta.taskmanagement.util.validator
 
-import com.ducta.taskmanagement.entities.Priority
-import com.ducta.taskmanagement.entities.Status
+import com.ducta.taskmanagement.domain.Priority
+import com.ducta.taskmanagement.domain.Status
 import javax.validation.Constraint
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext

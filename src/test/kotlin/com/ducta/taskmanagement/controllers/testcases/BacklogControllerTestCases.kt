@@ -1,7 +1,6 @@
 package com.ducta.taskmanagement.controllers.testcases
 
-import com.ducta.taskmanagement.dto.TaskCreateDto
-import java.time.LocalDate
+import com.ducta.taskmanagement.domain.dto.TaskCreateDto
 
 class BacklogControllerTestCases {
 

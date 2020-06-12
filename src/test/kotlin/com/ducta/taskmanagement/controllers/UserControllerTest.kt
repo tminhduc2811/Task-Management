@@ -1,7 +1,7 @@
 package com.ducta.taskmanagement.controllers
 
 import com.ducta.taskmanagement.controllers.testcases.UserControllerTestCases
-import com.ducta.taskmanagement.dto.UserDto
+import com.ducta.taskmanagement.domain.dto.UserDto
 import com.ducta.taskmanagement.exceptions.ErrorDetails
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,7 +43,7 @@ class UserControllerTest {
         val responseEntityFailed: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/nonExistedUsername", HttpMethod.GET)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntityFailed.statusCode)
         Assertions.assertNotNull(responseEntityFailed.body)
-        Assertions.assertEquals("Username: nonExistedUsername not found", responseEntityFailed.body!!.details)
+        Assertions.assertEquals("User not found", responseEntityFailed.body!!.details)
 
         val responseEntitySuccess: ResponseEntity<UserDto> = restTemplate.exchange("$url/admin", HttpMethod.GET)
         Assertions.assertEquals(HttpStatus.OK, responseEntitySuccess.statusCode)
@@ -56,7 +56,7 @@ class UserControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/register", HttpMethod.POST, HttpEntity(userRegisterDto))
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Username: ${userRegisterDto.username} already exists", responseEntity.body!!.details)
+        Assertions.assertEquals("Username: ${userRegisterDto.username} already existed", responseEntity.body!!.details)
     }
 
     @Test
@@ -66,7 +66,7 @@ class UserControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/register", HttpMethod.POST, HttpEntity(userRegisterDto))
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Email: ${userRegisterDto.email} already exists", responseEntity.body!!.details)
+        Assertions.assertEquals("Email: ${userRegisterDto.email} already existed", responseEntity.body!!.details)
     }
 
     @Test
@@ -76,7 +76,7 @@ class UserControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/register", HttpMethod.POST, HttpEntity(userRegisterDto))
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertEquals("Validation failed", responseEntity.body!!.details)
-        Assertions.assertEquals("Your password is not satisfied", responseEntity.body!!.errors?.get("password"))
+        Assertions.assertEquals("Your password is not strong enough", responseEntity.body!!.errors?.get("password"))
     }
 
     @Test

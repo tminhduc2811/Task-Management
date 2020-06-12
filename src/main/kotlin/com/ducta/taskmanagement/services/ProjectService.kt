@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.services
 
-import com.ducta.taskmanagement.dto.ProjectCreateDto
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
+import com.ducta.taskmanagement.domain.dto.ProjectDto
+import com.ducta.taskmanagement.domain.dto.ProjectUpdateDto
 
 interface ProjectService {
     fun createProject(username: String, projectCreateDto: ProjectCreateDto)

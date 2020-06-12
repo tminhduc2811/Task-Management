@@ -1,9 +1,8 @@
 package com.ducta.taskmanagement.controllers.testcases
 
-import com.ducta.taskmanagement.dto.ProjectCreateDto
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
-import com.ducta.taskmanagement.dto.UserCredentials
-import java.time.LocalDate
+import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
+import com.ducta.taskmanagement.domain.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.domain.dto.UserCredentials
 
 class ProjectControllerTestCases {
  companion object {

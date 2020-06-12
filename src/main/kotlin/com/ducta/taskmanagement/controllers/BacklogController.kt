@@ -1,12 +1,11 @@
 package com.ducta.taskmanagement.controllers
 
-import com.ducta.taskmanagement.dto.TaskCreateDto
-import com.ducta.taskmanagement.dto.TaskDto
+import com.ducta.taskmanagement.domain.dto.TaskCreateDto
+import com.ducta.taskmanagement.domain.dto.TaskDto
 import com.ducta.taskmanagement.services.BacklogService
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid

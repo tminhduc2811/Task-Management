@@ -1,6 +1,6 @@
 package com.ducta.taskmanagement.repositories
 
-import com.ducta.taskmanagement.entities.User
+import com.ducta.taskmanagement.domain.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

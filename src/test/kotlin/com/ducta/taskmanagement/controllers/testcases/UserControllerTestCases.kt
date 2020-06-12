@@ -1,7 +1,7 @@
 package com.ducta.taskmanagement.controllers.testcases
 
-import com.ducta.taskmanagement.dto.UserCredentials
-import com.ducta.taskmanagement.dto.UserRegisterDto
+import com.ducta.taskmanagement.domain.dto.UserCredentials
+import com.ducta.taskmanagement.domain.dto.UserRegisterDto
 
 class UserControllerTestCases {
 

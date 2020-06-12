@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.ServletWebRequest
 import org.springframework.web.context.request.WebRequest
-import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.util.*
 import java.util.function.Consumer
@@ -51,31 +50,43 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
+//
+//    override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
+//        return ResponseEntity(ErrorDetails(
+//                Date(),
+//                404,
+//                "Not found",
+//                "No mapping for ${(request as ServletWebRequest).request.requestURI}",
+//                request.request.requestURI
+//        ), HttpStatus.NOT_FOUND)
+//    }
 
-    override fun handleNoHandlerFoundException(ex: NoHandlerFoundException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
-        return ResponseEntity(ErrorDetails(
-                Date(),
-                404,
-                "Not found",
-                "No mapping for ${(request as ServletWebRequest).request.requestURI}",
-                request.request.requestURI
-        ), HttpStatus.NOT_FOUND)
-    }
+//    @ExceptionHandler(RuntimeException::class)
+//    fun handleRuntimeException(e: RuntimeException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+//        return ResponseEntity(ErrorDetails(
+//                Date(),
+//                500,
+//                "Internal server error",
+//                e.message.toString(),
+//                request.requestURI
+//        ), HttpStatus.INTERNAL_SERVER_ERROR)
+//    }
 
-    @ExceptionHandler(RuntimeException::class)
-    fun handleRuntimeException(e: RuntimeException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        return ResponseEntity(ErrorDetails(
+
+    @ExceptionHandler(EntityAccessDeniedException::class)
+    fun handleEntityAccessDeniedException(ex: EntityAccessDeniedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        val errorDetails = ErrorDetails(
                 Date(),
-                500,
-                "Internal server error",
-                e.message.toString(),
+                403,
+                "Bad request",
+                ex.message!!,
                 request.requestURI
-        ), HttpStatus.INTERNAL_SERVER_ERROR)
+        )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
 
-
-    @ExceptionHandler(ProjectAccessDeniedException::class)
-    fun handleProjectAccessDeniedException(ex: ProjectAccessDeniedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+    @ExceptionHandler(EntityAlreadyExistedException::class)
+    fun handleEntityAlreadyExists(ex: EntityAlreadyExistedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
@@ -86,8 +97,8 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(ProjectAlreadyExistsException::class)
-    fun handleProjectAlreadyExists(ex: ProjectAlreadyExistsException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+    @ExceptionHandler(EntityNotFoundException::class)
+    fun handleEntitytNotFoundException(ex: EntityNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
@@ -98,96 +109,12 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(ProjectNotFoundException::class)
-    fun handleProjectNotFoundException(ex: ProjectNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(ProjectInvalidDateException::class)
-    fun handleProjectInvalidDate(ex: ProjectInvalidDateException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+    @ExceptionHandler(InvalidStartDateEndDateException::class)
+    fun handleInvalidStartDateAndEndDate(ex: InvalidStartDateEndDateException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
         val errorDetails = ErrorDetails(
                 Date(),
                 400,
                 "Start date and End date are not suitable",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(BadPriorityException::class)
-    fun handleBadPriorityException(ex: BadPriorityException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(BadStatusException::class)
-    fun handleBadStatusException(ex: BadStatusException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(TaskNotFoundException::class)
-    fun handleTaskNotFoundException(ex: TaskNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(UserNotFoundException::class)
-    fun handleUserNotFoundException(ex: UserNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(UserAlreadyExistsException::class)
-    fun handleUserNotFoundException(ex: UserAlreadyExistsException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(EmailAlreadyExistsException::class)
-    fun handleEmailAlreadyExistsException(ex: EmailAlreadyExistsException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
                 ex.message!!,
                 request.requestURI
         )

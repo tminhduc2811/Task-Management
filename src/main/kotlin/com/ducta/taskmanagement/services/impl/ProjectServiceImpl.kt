@@ -1,16 +1,13 @@
 package com.ducta.taskmanagement.services.impl
 
-import com.ducta.taskmanagement.dto.ProjectCreateDto
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
-import com.ducta.taskmanagement.entities.Backlog
-import com.ducta.taskmanagement.entities.Project
-import com.ducta.taskmanagement.entities.TaskCount
-import com.ducta.taskmanagement.entities.User
-import com.ducta.taskmanagement.exceptions.ProjectAccessDeniedException
-import com.ducta.taskmanagement.exceptions.ProjectAlreadyExistsException
-import com.ducta.taskmanagement.exceptions.ProjectInvalidDateException
-import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
+import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
+import com.ducta.taskmanagement.domain.dto.ProjectDto
+import com.ducta.taskmanagement.domain.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.domain.Backlog
+import com.ducta.taskmanagement.domain.Project
+import com.ducta.taskmanagement.domain.TaskCount
+import com.ducta.taskmanagement.domain.User
+import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.ProjectService
@@ -26,10 +23,10 @@ class ProjectServiceImpl(
     override fun createProject(username: String, projectCreateDto: ProjectCreateDto) {
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
-                .ifPresent { throw ProjectAlreadyExistsException(projectCreateDto.projectIdentifier) }
+                .ifPresent { throw EntityAlreadyExistedException("Project Identifier already existed") }
 
         val user: User = userRepository.findUserByUsername(username).map { user -> user }
-                .orElseThrow { throw Exception("User not found") }
+                .orElseThrow { throw EntityNotFoundException("User not found") }
         val taskCount = TaskCount()
         val project: Project = Project.fromDto(projectCreateDto)
         val backlog = Backlog()
@@ -51,14 +48,14 @@ class ProjectServiceImpl(
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
         return projectRepository.findById(projectIdentifier).map {
             it.toDto()
-        }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+        }.orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
     }
 
     override fun deleteProject(projectIdentifier: String) {
 
         projectRepository.findById(projectIdentifier)
                 .map { p -> projectRepository.delete(p) }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
 
     }
 
@@ -76,13 +73,13 @@ class ProjectServiceImpl(
                     updatedProject.backlog = project.backlog
                     updatedProject.user = project.user
                     projectRepository.save(updatedProject)
-                }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                }.orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
     }
 
     override fun isUserOwnerOfProject(projectIdentifier: String, username: String) {
         projectRepository.findById(projectIdentifier).ifPresent {
             if (it.user!!.username != username) {
-                throw ProjectAccessDeniedException(projectIdentifier)
+                throw EntityAccessDeniedException()
             }
         }
 

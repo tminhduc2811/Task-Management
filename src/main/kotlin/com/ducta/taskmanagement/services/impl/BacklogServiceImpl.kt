@@ -1,15 +1,12 @@
 package com.ducta.taskmanagement.services.impl
 
-import com.ducta.taskmanagement.dto.TaskCreateDto
-import com.ducta.taskmanagement.dto.TaskDto
-import com.ducta.taskmanagement.entities.Backlog
-import com.ducta.taskmanagement.entities.Priority
-import com.ducta.taskmanagement.entities.Status
-import com.ducta.taskmanagement.entities.Task
-import com.ducta.taskmanagement.exceptions.BadPriorityException
-import com.ducta.taskmanagement.exceptions.BadStatusException
-import com.ducta.taskmanagement.exceptions.ProjectNotFoundException
-import com.ducta.taskmanagement.exceptions.TaskNotFoundException
+import com.ducta.taskmanagement.domain.dto.TaskCreateDto
+import com.ducta.taskmanagement.domain.dto.TaskDto
+import com.ducta.taskmanagement.domain.Backlog
+import com.ducta.taskmanagement.domain.Priority
+import com.ducta.taskmanagement.domain.Status
+import com.ducta.taskmanagement.domain.Task
+import com.ducta.taskmanagement.exceptions.EntityNotFoundException
 import com.ducta.taskmanagement.repositories.BacklogRepository
 import com.ducta.taskmanagement.repositories.TaskRepository
 import com.ducta.taskmanagement.services.BacklogService
@@ -25,14 +22,14 @@ class BacklogServiceImpl(
     override fun getAllTasks(projectIdentifier: String): List<TaskDto> {
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
         return backlog.tasks.map { task -> task.toDto() }.toList()
     }
 
     override fun createTask(projectIdentifier: String, taskCreateDto: TaskCreateDto) {
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
 
         val task: Task = Task.fromDto(taskCreateDto)
         task.backlog = backlog
@@ -45,18 +42,18 @@ class BacklogServiceImpl(
     override fun deleteTask(projectIdentifier: String, taskSequence: String) {
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
         val task: Task = backlog.tasks.firstOrNull { it.sequence == taskSequence }
-                ?: throw TaskNotFoundException(taskSequence)
+                ?: throw EntityNotFoundException("Task $taskSequence not found")
         taskRepository.delete(task)
     }
 
     override fun updateTask(projectIdentifier: String, taskSequence: String, taskUpdateDto: TaskCreateDto) {
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
-                .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
+                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
         val task: Task = backlog.tasks.firstOrNull { it.sequence == taskSequence }
-                ?: throw TaskNotFoundException(taskSequence)
+                ?: throw EntityNotFoundException("Task $taskSequence not found")
         // Update task fields
         val updatedTask = task.copy(
                 summary = taskUpdateDto.summary,

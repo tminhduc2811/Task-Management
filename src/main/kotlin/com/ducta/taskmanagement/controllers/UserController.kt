@@ -1,9 +1,9 @@
 package com.ducta.taskmanagement.controllers
 
-import com.ducta.taskmanagement.dto.AuthenticatedUserDto
-import com.ducta.taskmanagement.dto.UserCredentials
-import com.ducta.taskmanagement.dto.UserDto
-import com.ducta.taskmanagement.dto.UserRegisterDto
+import com.ducta.taskmanagement.domain.dto.AuthenticatedUserDto
+import com.ducta.taskmanagement.domain.dto.UserCredentials
+import com.ducta.taskmanagement.domain.dto.UserDto
+import com.ducta.taskmanagement.domain.dto.UserRegisterDto
 import com.ducta.taskmanagement.services.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,7 +1,7 @@
 package com.ducta.taskmanagement.services
 
-import com.ducta.taskmanagement.dto.TaskCreateDto
-import com.ducta.taskmanagement.dto.TaskDto
+import com.ducta.taskmanagement.domain.dto.TaskCreateDto
+import com.ducta.taskmanagement.domain.dto.TaskDto
 
 interface BacklogService {
     fun getAllTasks(projectIdentifier: String): List<TaskDto>

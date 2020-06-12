@@ -1,5 +1,6 @@
-package com.ducta.taskmanagement.entities
+package com.ducta.taskmanagement.domain
 
+import com.ducta.taskmanagement.domain.Backlog
 import javax.persistence.*
 
 @Entity

@@ -1,4 +1,4 @@
-package com.ducta.taskmanagement.dto
+package com.ducta.taskmanagement.domain.dto
 
 import com.ducta.taskmanagement.util.validator.DateConstraint
 import com.ducta.taskmanagement.util.validator.EnumConstraint
@@ -14,7 +14,7 @@ data class TaskDto (
         val acceptanceCriteria: String,
         val status: String,
         val priority: String,
-        val dueDate: LocalDate,
+        val dueDate: LocalDate?,
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime
 )
@@ -31,5 +31,5 @@ data class TaskCreateDto(
         @EnumConstraint(field = "priority")
         val priority: String,
         @DateConstraint
-        val dueDate: String
+        val dueDate: String?
 )

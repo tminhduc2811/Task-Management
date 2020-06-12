@@ -1,8 +1,7 @@
-package com.ducta.taskmanagement.entities
+package com.ducta.taskmanagement.domain
 
-import com.ducta.taskmanagement.dto.ProjectCreateDto
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
+import com.ducta.taskmanagement.domain.dto.ProjectDto
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*

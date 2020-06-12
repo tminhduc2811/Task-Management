@@ -1,8 +1,8 @@
 package com.ducta.taskmanagement.controllers
 
-import com.ducta.taskmanagement.dto.ProjectCreateDto
-import com.ducta.taskmanagement.dto.ProjectDto
-import com.ducta.taskmanagement.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
+import com.ducta.taskmanagement.domain.dto.ProjectDto
+import com.ducta.taskmanagement.domain.dto.ProjectUpdateDto
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

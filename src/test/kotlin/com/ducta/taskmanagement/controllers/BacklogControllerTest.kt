@@ -2,8 +2,8 @@ package com.ducta.taskmanagement.controllers
 
 import com.ducta.taskmanagement.controllers.testcases.BacklogControllerTestCases
 import com.ducta.taskmanagement.controllers.testcases.ProjectControllerTestCases
-import com.ducta.taskmanagement.dto.AuthenticatedUserDto
-import com.ducta.taskmanagement.dto.TaskDto
+import com.ducta.taskmanagement.domain.dto.AuthenticatedUserDto
+import com.ducta.taskmanagement.domain.dto.TaskDto
 import com.ducta.taskmanagement.exceptions.ErrorDetails
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,10 +14,8 @@ import org.springframework.boot.test.web.client.postForEntity
 import org.springframework.http.*
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.TestPropertySource
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = ["classpath:application-test.properties"])
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -76,7 +74,7 @@ class BacklogControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.postForEntity("$url/$projectIdentifier", entity)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project with id: $projectIdentifier not found", responseEntity.body!!.details)
+        Assertions.assertEquals("Project $projectIdentifier not found", responseEntity.body!!.details)
     }
 
     @Test

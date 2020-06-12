@@ -1,4 +1,4 @@
-package com.ducta.taskmanagement.dto
+package com.ducta.taskmanagement.domain.dto
 
 import com.ducta.taskmanagement.util.validator.DurationConstraint
 import java.time.LocalDate

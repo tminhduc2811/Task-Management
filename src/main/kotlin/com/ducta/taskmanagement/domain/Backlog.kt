@@ -1,4 +1,4 @@
-package com.ducta.taskmanagement.entities
+package com.ducta.taskmanagement.domain
 
 import javax.persistence.*
 
