@@ -44,8 +44,6 @@ class UserServiceImpl(private val userRepository: UserRepository,
     }
 
     override fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto {
-
-        try {
             val authentication: Authentication = authenticationManager.authenticate(
                     UsernamePasswordAuthenticationToken(
                             userCredentials.username,
@@ -56,9 +54,5 @@ class UserServiceImpl(private val userRepository: UserRepository,
                     userCredentials.username,
                     jwtTokenProvider.generateToken(authentication)
             )
-        } catch (ex: Exception) {
-            throw AuthenticationException()
-        }
-
     }
 }
