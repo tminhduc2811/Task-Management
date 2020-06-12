@@ -50,7 +50,6 @@ class ProjectServiceImpl(
 
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
         return projectRepository.findById(projectIdentifier).map {
-            println(it)
             it.toDto()
         }.orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
     }
