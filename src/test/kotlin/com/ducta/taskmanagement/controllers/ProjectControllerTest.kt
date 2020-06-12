@@ -117,8 +117,8 @@ class ProjectControllerTest {
         val actual = responseEntity.body!!
         Assertions.assertEquals(newProject.description, actual.description)
         Assertions.assertEquals(newProject.projectName, actual.projectName)
-        Assertions.assertEquals(newProject.startDate, actual.startDate)
-        Assertions.assertEquals(newProject.endDate, actual.endDate)
+        Assertions.assertEquals(newProject.startDate, actual.startDate.toString())
+        Assertions.assertEquals(newProject.endDate, actual.endDate.toString())
     }
 
     @Test
@@ -130,7 +130,8 @@ class ProjectControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.postForEntity(url, httpEntity)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project's end date must be after start date", responseEntity.body!!.details)
+        Assertions.assertEquals("Validation failed", responseEntity.body!!.details)
+        Assertions.assertEquals("Invalid date, start date must be before end date", responseEntity.body!!.errors?.get("startDate"))
 
     }
 }

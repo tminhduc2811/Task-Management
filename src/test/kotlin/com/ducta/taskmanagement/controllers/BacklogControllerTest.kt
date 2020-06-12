@@ -88,7 +88,7 @@ class BacklogControllerTest {
         val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.postForEntity("$url/$projectIdentifier", entity)
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Status: ${createTaskCase[projectIdentifier]!!.status} is not valid", responseEntity.body!!.details)
+        Assertions.assertEquals("Validation failed", responseEntity.body!!.details)
     }
 
     @Test

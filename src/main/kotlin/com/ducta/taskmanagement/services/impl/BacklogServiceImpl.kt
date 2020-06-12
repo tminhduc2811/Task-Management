@@ -34,12 +34,6 @@ class BacklogServiceImpl(
                 .map { it }
                 .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
 
-        if (!Priority.values().any() { it.name == taskCreateDto.priority }) {
-            throw BadPriorityException(taskCreateDto.priority)
-        }
-        if (!Status.values().any() { it.name == taskCreateDto.status }) {
-            throw BadStatusException(taskCreateDto.status)
-        }
         val task: Task = Task.fromDto(taskCreateDto)
         task.backlog = backlog
         backlog.taskCount.total += 1
@@ -61,12 +55,6 @@ class BacklogServiceImpl(
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }
                 .orElseThrow { throw ProjectNotFoundException(projectIdentifier) }
-        if (!Priority.values().any() { it.name == taskUpdateDto.priority }) {
-            throw BadPriorityException(taskUpdateDto.priority)
-        }
-        if (!Status.values().any() { it.name == taskUpdateDto.status }) {
-            throw BadStatusException(taskUpdateDto.status)
-        }
         val task: Task = backlog.tasks.firstOrNull { it.sequence == taskSequence }
                 ?: throw TaskNotFoundException(taskSequence)
         // Update task fields

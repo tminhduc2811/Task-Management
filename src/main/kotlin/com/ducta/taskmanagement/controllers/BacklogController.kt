@@ -42,7 +42,7 @@ class BacklogController(private val backlogService: BacklogService, private val 
     @PutMapping("/backlog/{projectIdentifier}/{taskSequence}")
     fun updateTask(@PathVariable projectIdentifier: String,
                    @PathVariable taskSequence: String,
-                   @RequestBody taskUpdateDto: TaskCreateDto): ResponseEntity<Void> {
+                   @Valid @RequestBody taskUpdateDto: TaskCreateDto): ResponseEntity<Void> {
         val username = SecurityContextHolder.getContext().authentication.name
         projectService.isUserOwnerOfProject(projectIdentifier, username)
         backlogService.updateTask(projectIdentifier, taskSequence, taskUpdateDto)

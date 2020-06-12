@@ -1,6 +1,5 @@
 package com.ducta.taskmanagement.dto
 
-import com.ducta.taskmanagement.util.validator.DateConstraint
 import com.ducta.taskmanagement.util.validator.DurationConstraint
 import java.time.LocalDate
 import java.time.LocalDateTime

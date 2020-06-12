@@ -13,9 +13,9 @@ class LoginPage extends React.Component {
     super(props);
 
     // redirect to home if already logged in
-    if (authenticationService.authInfo) {
-      // this.props.history.push('/');
-      console.log("test ", authenticationService.authInfo);
+    if (authenticationService.authInfoValue) {
+      this.props.history.push('/');
+      console.log("test ", authenticationService.authInfoValue);
     }
   }
 
@@ -45,8 +45,8 @@ class LoginPage extends React.Component {
                       .login({ username: username, password: password })
                       .then(
                         () => {
-                          this.props.history.push("/");
                           setSubmitting(false);
+                          this.props.history.push("/");
                         },
                         (error) => {
                           setSubmitting(false);
@@ -151,20 +151,30 @@ class LoginPage extends React.Component {
                       })
                       .then(
                         () => {
-                          this.props.history.push("/");
-                          setSubmitting(false);
+                          authenticationService
+                            .login({ username: username, password: password })
+                            .then(
+                              () => {
+                                setSubmitting(false);
+                                this.props.history.push("/");
+                              },
+                              (error) => {
+                                setSubmitting(false);
+                                setStatus(error);
+                              }
+                            );
                         },
                         (error) => {
-                            setSubmitting(false);
-                            console.log("error ", error.response);
-                            const message = error.response.data.details;
-    
-                            if (message == "Validation failed") {
-                              // setStatus(error.response.data.errors)
-                              setErrors(error.response.data.errors);
-                            } else {
-                              setStatus(message);
-                            }
+                          setSubmitting(false);
+                          console.log("error ", error.response);
+                          const message = error.response.data.details;
+
+                          if (message == "Validation failed") {
+                            // setStatus(error.response.data.errors)
+                            setErrors(error.response.data.errors);
+                          } else {
+                            setStatus(message);
+                          }
                         }
                       );
                   }}
@@ -213,9 +223,7 @@ class LoginPage extends React.Component {
                           type="text"
                           className={
                             "form-control" +
-                            (errors.email && touched.email
-                              ? " is-invalid"
-                              : "")
+                            (errors.email && touched.email ? " is-invalid" : "")
                           }
                         />
                         <ErrorMessage

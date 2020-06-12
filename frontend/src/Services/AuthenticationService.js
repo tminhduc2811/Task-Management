@@ -12,6 +12,7 @@ const login = (userCredentials) => {
     .post("/users/login", userCredentials)
     // .then(handleResponse)
     .then((rs) => {
+      console.log('received token, ', rs.data)
       localStorage.setItem("authInfo", JSON.stringify(rs.data));
       authInfoSubject.next(rs.data);
       return rs;

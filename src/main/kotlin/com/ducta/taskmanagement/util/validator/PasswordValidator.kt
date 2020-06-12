@@ -20,7 +20,6 @@ annotation class PasswordConstraint(
 
 class PasswordValidator : ConstraintValidator<PasswordConstraint, String> {
     override fun isValid(password: String?, context: ConstraintValidatorContext?): Boolean {
-
         // Password must be between 8 & 40 characters, at least 1 digit, lower key, upper key and special character
         val pattern: Pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#\$%^&+=])(?=\\S+\$).{8,40}\$")
         if (password == null) {
