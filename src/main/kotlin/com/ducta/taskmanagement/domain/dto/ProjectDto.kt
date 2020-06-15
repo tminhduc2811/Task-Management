@@ -29,8 +29,8 @@ data class ProjectCreateDto(
         val projectIdentifier: String,
         @get:NotBlank
         val description: String,
-        val startDate: String,
-        val endDate: String
+        val startDate: String?,
+        val endDate: String?
 )
 
 @DurationConstraint(
@@ -42,6 +42,6 @@ data class ProjectUpdateDto(
         val projectName: String,
         @get:NotBlank
         val description: String,
-        val startDate: String,
-        val endDate: String
+        val startDate: String?,
+        val endDate: String?
 )

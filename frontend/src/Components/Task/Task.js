@@ -6,8 +6,8 @@ const Task = (props) => {
     (props.task.priority === "LOW"
       ? "bg-success"
       : props.task.priority === "MEDIUM"
-      ? "bg-warning"
-      : "bg-danger");
+        ? "bg-warning"
+        : "bg-danger");
   return (
     <div>
       <div className="card">

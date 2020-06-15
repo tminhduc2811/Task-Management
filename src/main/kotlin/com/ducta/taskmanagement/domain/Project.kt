@@ -67,5 +67,12 @@ data class Project(
                 createdAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now()
         )
+
+        fun setDate(date: String?): LocalDate? {
+            if (date.isNullOrBlank()) {
+                return null
+            }
+            return LocalDate.parse(date)
+        }
     }
 }

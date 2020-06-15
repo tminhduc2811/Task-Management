@@ -29,8 +29,11 @@ class DurationValidator : ConstraintValidator<DurationConstraint, Any> {
         this.endDate = constraintAnnotation.endDate
     }
     override fun isValid(value: Any, context: ConstraintValidatorContext): Boolean {
-        val startDateValue = BeanWrapperImpl(value).getPropertyValue(startDate)
-        val endDateValue = BeanWrapperImpl(value).getPropertyValue(endDate)
+        val startDateValue = BeanWrapperImpl(value).getPropertyValue(startDate) as String?
+        val endDateValue = BeanWrapperImpl(value).getPropertyValue(endDate) as String?
+        if (startDateValue.isNullOrBlank() || endDateValue.isNullOrBlank()) {
+            return true
+        }
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         try {
             val start: Date = dateFormat.parse(startDateValue as String)

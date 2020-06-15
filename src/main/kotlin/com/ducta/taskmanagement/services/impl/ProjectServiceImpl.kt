@@ -66,8 +66,8 @@ class ProjectServiceImpl(
                             .copy(
                                     projectName = projectUpdateDto.projectName,
                                     description = projectUpdateDto.description,
-                                    startDate = LocalDate.parse(projectUpdateDto.startDate),
-                                    endDate = LocalDate.parse(projectUpdateDto.endDate),
+                                    startDate = Project.setDate(projectUpdateDto.startDate),
+                                    endDate = Project.setDate(projectUpdateDto.endDate),
                                     updatedAt = LocalDateTime.now()
                             )
                     updatedProject.backlog = project.backlog
