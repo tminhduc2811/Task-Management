@@ -64,6 +64,7 @@ class SecurityConfiguration(
                 .authorizeRequests()
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/projects/**").authenticated()
+                .antMatchers("/api/backlog/**").authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
