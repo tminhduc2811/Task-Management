@@ -58,8 +58,8 @@ class BacklogServiceImpl(
         val updatedTask = task.copy(
                 summary = taskUpdateDto.summary,
                 updatedAt = LocalDateTime.now(),
-                priority = Priority.valueOf(taskUpdateDto.priority),
-                status = Status.valueOf(taskUpdateDto.status),
+                priority = Priority.values()[taskUpdateDto.priority],
+                status = Status.values()[taskUpdateDto.status],
                 dueDate = LocalDate.parse(taskUpdateDto.dueDate),
                 acceptanceCriteria = taskUpdateDto.acceptanceCriteria
         )

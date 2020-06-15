@@ -9,15 +9,15 @@ class BacklogControllerTestCases {
                 TaskCreateDto(
                         "Task 1",
                         "Acceptance criteria",
-                        "TODO",
-                        "HIGH",
+                        1,
+                        2,
                         "2020-10-10"
                 ),
                 TaskCreateDto(
                         "Task 2",
                         "Acceptance criteria",
-                        "DOING",
-                        "LOW",
+                        2,
+                        1,
                         "2020-08-08"
                 )
         ))
@@ -27,8 +27,8 @@ class BacklogControllerTestCases {
                 TaskCreateDto(
                         "Task 1",
                         "Acceptance criteria",
-                        "TODO",
-                        "HIGH",
+                        1,
+                        2,
                         "2020-10-10"
                 )
         )
@@ -38,8 +38,8 @@ class BacklogControllerTestCases {
                 TaskCreateDto(
                         "Task",
                         "Acceptance criteria",
-                        "BAD_STATUS",
-                        "HIGH",
+                        4,
+                        1,
                         "2020-10-10"
                 )
         )
@@ -48,8 +48,8 @@ class BacklogControllerTestCases {
                 TaskCreateDto(
                         "Updated Task",
                         "Acceptance criteria",
-                        "TODO",
-                        "HIGH",
+                        1,
+                        2,
                         "2020-12-10"
                 )
         )
@@ -58,8 +58,8 @@ class BacklogControllerTestCases {
             TaskCreateDto(
                     "Updated Task",
                     "Acceptance criteria",
-                    "BAD_STATUS",
-                    "HIGH",
+                    5,
+                    1,
                     "2020-10-10"
             )
         )

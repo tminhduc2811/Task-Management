@@ -64,8 +64,8 @@ data class Task(
         fun fromDto(taskCreateDto: TaskCreateDto) = Task(
                 summary = taskCreateDto.summary,
                 acceptanceCriteria = taskCreateDto.acceptanceCriteria,
-                status = Status.valueOf(taskCreateDto.status),
-                priority = Priority.valueOf(taskCreateDto.priority),
+                status = Status.values()[taskCreateDto.priority],
+                priority = Priority.values()[taskCreateDto.priority],
                 dueDate = LocalDate.parse(taskCreateDto.dueDate)
         )
     }

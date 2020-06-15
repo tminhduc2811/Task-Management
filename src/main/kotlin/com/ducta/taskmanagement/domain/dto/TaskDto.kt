@@ -24,12 +24,12 @@ data class TaskCreateDto(
         val summary: String,
         @get:NotBlank(message = "Acceptance criteria is required")
         val acceptanceCriteria: String,
-        @get:NotBlank
-        @EnumConstraint(field = "status")
-        val status: String,
-        @get:NotBlank
-        @EnumConstraint(field = "priority")
-        val priority: String,
+//        @get:NotBlank
+//        @EnumConstraint(field = "status")
+        val status: Int,
+//        @get:NotBlank
+//        @EnumConstraint(field = "priority")
+        val priority: Int,
         @DateConstraint
         val dueDate: String?
 )
