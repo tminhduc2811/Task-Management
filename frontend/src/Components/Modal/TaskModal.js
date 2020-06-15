@@ -153,7 +153,7 @@ class TaskModal extends Component {
                     </div>
                     <div className="form-group">
                       <label htmlFor="dueDate">Due date</label>
-                      <Field name="dueDate" type="text" className={"form-control" + (errors.dueDate && touched.dueDate ? " is-invalid" : "") } />
+                      <Field name="dueDate" type="text" placeholder="yyyy-mm-dd" className={"form-control" + (errors.dueDate && touched.dueDate ? " is-invalid" : "") } />
                       <ErrorMessage name="dueDate" component="div" className="invalid-feedback" />
                     </div>
                     <div className="form-group btn-form">

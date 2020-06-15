@@ -27,13 +27,12 @@ const ProjectForm = (props) => {
       </div>
       <div className="form-group">
         <label htmlFor="startDate">Start date</label>
-        <Field
-          name="startDate" type="startDate" className={"form-control" + (errors.startDate && touched.startDate ? " is-invalid" : "")} />
+        <Field name="startDate" placeholder="yyyy-mm-dd" type="startDate" className={"form-control" + (errors.startDate && touched.startDate ? " is-invalid" : "")} />
         <ErrorMessage name="startDate" component="div" className="invalid-feedback" />
       </div>
       <div className="form-group">
         <label htmlFor="endDate">End date</label>
-        <Field name="endDate" type="endDate" className={"form-control" + (errors.endDate && touched.endDate ? " is-invalid" : "")} />
+        <Field name="endDate" placeholder="yyyy-mm-dd" type="endDate" className={"form-control" + (errors.endDate && touched.endDate ? " is-invalid" : "")} />
         <ErrorMessage name="endDate" component="div" className="invalid-feedback" />
       </div>
       <div className="form-group btn-form">
