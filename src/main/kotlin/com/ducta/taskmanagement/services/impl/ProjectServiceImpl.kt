@@ -9,24 +9,18 @@ import com.ducta.taskmanagement.domain.TaskCount
 import com.ducta.taskmanagement.domain.User
 import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.ProjectRepository
-import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
 class ProjectServiceImpl(
-        private val projectRepository: ProjectRepository,
-        private val userRepository: UserRepository) : ProjectService {
+        private val projectRepository: ProjectRepository) : ProjectService {
 
-    override fun createProject(username: String, projectCreateDto: ProjectCreateDto) {
+    override fun createProject(user: User, projectCreateDto: ProjectCreateDto) {
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
                 .ifPresent { throw EntityAlreadyExistedException("Project Identifier already existed") }
-
-        val user: User = userRepository.findUserByUsername(username).map { user -> user }
-                .orElseThrow { throw EntityNotFoundException("User not found") }
         val taskCount = TaskCount()
         val project: Project = Project.fromDto(projectCreateDto)
         val backlog = Backlog()
