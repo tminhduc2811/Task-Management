@@ -1,6 +1,5 @@
 import axios from "../axios";
 import { BehaviorSubject } from "rxjs";
-import { handleResponse } from "../helpers/handle-authorization";
 
 const authInfoSubject = new BehaviorSubject(
   JSON.parse(localStorage.getItem("authInfo"))

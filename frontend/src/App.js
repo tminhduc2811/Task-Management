@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import LoginPage from "./Containers/LoginPage/LoginPage";
 import { authenticationService } from "./Services/AuthenticationService";
-import { history } from "./helpers/history";
+import { history } from "./utils/history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./Components/PrivateRoute";
 import Dashboard from "./Containers/Dashboard/Dashboard";

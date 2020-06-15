@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import Projects from "../../Components/Projects/Projects";
 import axios from "../../axios";
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import { authenticationService } from "../../Services/AuthenticationService";
-import * as Yup from "yup";
-import { history } from "../../helpers/history";
-import ProjectForm from "../../Components/Forms/ProjectForm";
-import handleResponse from "../../helpers/handle-authorization";
+import handleResponse from "../../utils/handle-authorization";
 import ProjecModal from "../../Components/Modal/ProjectModal";
 import ProjecUpdateModal from "../../Components/Modal/ProjectUpdateModal";
 

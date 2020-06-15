@@ -56,7 +56,7 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         val errorDetails = ErrorDetails(
                 Date(),
                 403,
-                "Bad request",
+                "Forbidden",
                 ex.message!!,
                 request.requestURI
         )

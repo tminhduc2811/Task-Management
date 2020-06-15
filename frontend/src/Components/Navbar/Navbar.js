@@ -1,8 +1,8 @@
 import React from 'react';
 import './Navbar.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { authenticationService } from '../../Services/AuthenticationService';
-import { history } from '../../helpers/history';
+import { history } from '../../utils/history';
 
 const Navbar = () => {
 

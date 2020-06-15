@@ -18,17 +18,17 @@ annotation class EnumConstraint(
         val payload: Array<KClass<out Payload>> = []
 )
 
-class EnumValidator : ConstraintValidator<EnumConstraint, String> {
+class EnumValidator : ConstraintValidator<EnumConstraint, Int> {
     var fieldName: String = ""
 
     override fun initialize(constraintAnnotation: EnumConstraint) {
         this.fieldName = constraintAnnotation.field
     }
 
-    override fun isValid(enumValue: String?, context: ConstraintValidatorContext): Boolean {
-        if (fieldName == "status" && (Status.values().any() { it.name == enumValue})) {
+    override fun isValid(enumValue: Int?, context: ConstraintValidatorContext): Boolean {
+        if (fieldName == "status" && (Status.values().any() { it.ordinal == enumValue})) {
             return true
-        } else if (fieldName == "priority" && (Priority.values().any() { it.name == enumValue })){
+        } else if (fieldName == "priority" && (Priority.values().any() { it.ordinal == enumValue })){
             return true
         }
         context.disableDefaultConstraintViolation()

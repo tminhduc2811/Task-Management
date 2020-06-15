@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectForm from '../Forms/ProjectForm';
-import { Formik, Field, ErrorMessage, Form } from "formik";
-import handleResponse from '../../helpers/handle-authorization';
+import { Formik } from "formik";
+import handleResponse from '../../utils/handle-authorization';
 import * as Yup from "yup";
 import axios from '../../axios';
 
@@ -66,7 +66,7 @@ const ProjecModal = (props) => {
                           console.log("error ", error.response);
                           const message = error.response.data.details;
 
-                          if (message == "Validation failed") {
+                          if (message === "Validation failed") {
                             // setStatus(error.response.data.errors)
                             setErrors(error.response.data.errors);
                           } else {

@@ -1,18 +1,13 @@
 import React from "react";
 
 const Task = (props) => {
-  const itemClass =
-    "card-header text-white mb-3 " +
-    (props.task.priority === "LOW"
-      ? "bg-success"
-      : props.task.priority === "MEDIUM"
-        ? "bg-warning"
-        : "bg-danger");
+  const itemClass = "card-header text-white mb-3 " + (props.task.priority === 0 ? "bg-success" : props.task.priority === 1 ? "bg-warning": "bg-danger");
+  const priority = props.task.priority === 0 ? "LOW" : (props.task.priority === 1 ? "MEDIUM" : "HIGH")
   return (
     <div>
       <div className="card">
         <div className={itemClass}>
-          ID: {props.task.sequence} - Priority: {props.task.priority}
+          ID: {props.task.sequence} - Priority: {priority}
         </div>
         <div className="card-body">
           <h5 className="card-title">{props.task.summary}</h5>

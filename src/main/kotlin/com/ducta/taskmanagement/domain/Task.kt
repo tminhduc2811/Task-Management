@@ -52,8 +52,8 @@ data class Task(
             sequence = sequence,
             summary = summary,
             acceptanceCriteria = acceptanceCriteria,
-            status = status.toString(),
-            priority = priority.toString(),
+            status = status.ordinal,
+            priority = priority.ordinal,
             dueDate = dueDate,
             createdAt = createdAt,
             updatedAt = updatedAt,
@@ -66,7 +66,13 @@ data class Task(
                 acceptanceCriteria = taskCreateDto.acceptanceCriteria,
                 status = Status.values()[taskCreateDto.priority],
                 priority = Priority.values()[taskCreateDto.priority],
-                dueDate = LocalDate.parse(taskCreateDto.dueDate)
+                dueDate = setDate(taskCreateDto.dueDate)
         )
+        fun setDate(date: String?): LocalDate? {
+            if (date.isNullOrBlank()) {
+                return null
+            }
+            return LocalDate.parse(date)
+        }
     }
 }

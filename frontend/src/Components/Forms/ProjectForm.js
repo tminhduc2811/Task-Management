@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, ErrorMessage, Form } from "formik";
+import { Field, ErrorMessage, Form } from "formik";
 import './ProjectForm.css';
 
 const ProjectForm = (props) => {

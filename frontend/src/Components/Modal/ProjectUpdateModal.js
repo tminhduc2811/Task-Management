@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ProjectForm from "../Forms/ProjectForm";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import handleResponse from "../../helpers/handle-authorization";
+import handleResponse from "../../utils/handle-authorization";
 import * as Yup from "yup";
 import axios from "../../axios";
 

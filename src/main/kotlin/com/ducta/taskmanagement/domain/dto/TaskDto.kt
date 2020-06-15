@@ -12,8 +12,8 @@ data class TaskDto (
         val sequence: String,
         val summary: String,
         val acceptanceCriteria: String,
-        val status: String,
-        val priority: String,
+        val status: Int,
+        val priority: Int,
         val dueDate: LocalDate?,
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime
@@ -24,11 +24,9 @@ data class TaskCreateDto(
         val summary: String,
         @get:NotBlank(message = "Acceptance criteria is required")
         val acceptanceCriteria: String,
-//        @get:NotBlank
-//        @EnumConstraint(field = "status")
+        @EnumConstraint(field = "status")
         val status: Int,
-//        @get:NotBlank
-//        @EnumConstraint(field = "priority")
+        @EnumConstraint(field = "priority")
         val priority: Int,
         @DateConstraint
         val dueDate: String?

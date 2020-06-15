@@ -3,6 +3,7 @@ import "./ProjectBoard.css";
 import Task from "../../Components/Task/Task";
 import axios from "../../axios";
 import TaskModal from "../../Components/Modal/TaskModal";
+import handleResponse from "../../utils/handle-authorization";
 class ProjectBoard extends Component {
   state = {
     tasks: [],
@@ -21,6 +22,8 @@ class ProjectBoard extends Component {
   componentDidMount() {
     axios.get(this.apiURL).then((rs) => {
       this.setState({ ...this.state, tasks: rs.data ? rs.data : [] });
+    }, error => {
+      handleResponse(error)
     });
   }
 
@@ -73,7 +76,7 @@ class ProjectBoard extends Component {
               <div className="btn btn-secondary w-100 tasks-header">TO DO</div>
             </div>
             {this.state.tasks
-              .filter((task) => task.status === "TODO")
+              .filter((task) => task.status === 0)
               .map((task) => {
                 return (
                   <Task
@@ -92,7 +95,7 @@ class ProjectBoard extends Component {
               </div>
             </div>
             {this.state.tasks
-              .filter((task) => task.status === "DOING")
+              .filter((task) => task.status === 1)
               .map((task) => {
                 return (
                   <Task
@@ -108,7 +111,7 @@ class ProjectBoard extends Component {
             <div className="header-task">
               <div className="btn btn-success w-100 tasks-header">DONE</div>
               {this.state.tasks
-                .filter((task) => task.status === "DONE")
+                .filter((task) => task.status === 2)
                 .map((task) => {
                   return (
                     <Task
