@@ -7,28 +7,12 @@ import axios from '../../axios';
 
 const ProjecModal = (props) => {
     return(
-        <div
-          className="modal fade"
-          id="staticBackdrop"
-          data-backdrop="static"
-          data-keyboard="false"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
+        <div className="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabIndex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h3 className="modal-title" id="staticBackdropLabel">
-                  Create Project
-                </h3>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <h3 className="modal-title" id="staticBackdropLabel">Create Project</h3>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -51,8 +35,6 @@ const ProjecModal = (props) => {
                     description: Yup.string().required(
                       "Description is required"
                     ),
-                    startDate: Yup.string().required("Start date is required"),
-                    endDate: Yup.string().required("End date is required"),
                   })}
                   onSubmit={(
                     {
