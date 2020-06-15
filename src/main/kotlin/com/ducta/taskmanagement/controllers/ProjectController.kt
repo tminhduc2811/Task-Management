@@ -3,6 +3,7 @@ package com.ducta.taskmanagement.controllers
 import com.ducta.taskmanagement.domain.dto.ProjectCreateDto
 import com.ducta.taskmanagement.domain.dto.ProjectDto
 import com.ducta.taskmanagement.domain.dto.ProjectUpdateDto
+import com.ducta.taskmanagement.security.UserAuthenticationDetails
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,8 +17,8 @@ class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/projects")
     fun createProject(@Valid @RequestBody projectCreateDto: ProjectCreateDto) : ResponseEntity<Void> {
-        val username = SecurityContextHolder.getContext().authentication.name
-        projectService.createProject(username, projectCreateDto)
+        val user = (SecurityContextHolder.getContext().authentication.principal as UserAuthenticationDetails).user
+        projectService.createProject(user, projectCreateDto)
         return ResponseEntity(HttpStatus.CREATED)
     }
 

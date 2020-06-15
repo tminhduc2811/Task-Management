@@ -26,7 +26,9 @@ data class UserRegisterDto(
 )
 
 data class UserCredentials(
+        @get:NotBlank
         val username: String,
+        @get:NotBlank
         val password: String
 )
 
