@@ -12,6 +12,6 @@ mvn package
 
 docker-compose up --build # Force to build frontend
 
-# If build & run successfully, the application is available at localhost:5000
+# If build & run successfully, the application will be available at localhost:5000
 
 ```
