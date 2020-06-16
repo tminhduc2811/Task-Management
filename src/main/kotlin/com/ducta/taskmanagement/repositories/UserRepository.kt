@@ -21,4 +21,7 @@ interface UserRepository: JpaRepository<User, Long> {
 
     @Query("SELECT COUNT(p)>0 FROM Project p WHERE p.user.username=:username AND p.projectIdentifier=:projectIdentifier")
     fun isUserOwnerOfProject(@Param("username") username: String, @Param("projectIdentifier") projectIdentifier: String): Boolean
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.projects WHERE u.username=:username")
+    fun getAllUserInfo(@Param("username") username: String): Optional<User>
 }

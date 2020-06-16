@@ -5,6 +5,8 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.AuthenticationException
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -61,5 +63,15 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
                 request.requestURI
         ), ex.httpStatus)
     }
-
+//
+//    @ExceptionHandler(AuthenticationException::class)
+//    fun handleAuthenticationException(ex: AuthenticationException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+//        return ResponseEntity(ErrorDetails(
+//                Date(),
+//                HttpStatus.FORBIDDEN.value(),
+//                HttpStatus.FORBIDDEN.name,
+//                ex.message!!,
+//                request.requestURI
+//        ), HttpStatus.FORBIDDEN)
+//    }
 }

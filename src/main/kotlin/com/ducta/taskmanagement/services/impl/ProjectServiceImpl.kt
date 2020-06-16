@@ -12,6 +12,7 @@ import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.services.ProjectService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
@@ -46,6 +47,7 @@ class ProjectServiceImpl(
         }.orElseThrow { throw CustomException("Project $projectIdentifier not found") }
     }
 
+
     override fun deleteProject(projectIdentifier: String) {
 
         projectRepository.findById(projectIdentifier)
@@ -54,6 +56,7 @@ class ProjectServiceImpl(
 
     }
 
+    @Transactional
     override fun updateProject(projectIdentifier: String, projectUpdateDto: ProjectUpdateDto) {
         projectRepository.findById(projectIdentifier)
                 .map { project ->

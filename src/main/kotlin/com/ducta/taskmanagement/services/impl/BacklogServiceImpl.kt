@@ -39,6 +39,7 @@ class BacklogServiceImpl(
         backlogRepository.save(backlog)
     }
 
+
     override fun deleteTask(projectIdentifier: String, taskSequence: String) {
         val backlog: Backlog = backlogRepository.findBacklogByProjectIdentifier(projectIdentifier)
                 .map { it }

@@ -1,14 +1,13 @@
 package com.ducta.taskmanagement.security
 
 import com.ducta.taskmanagement.domain.User
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class UserAuthenticationDetails(val user: User): UserDetails {
+class UserAuthenticationDetails(val user: User) : UserDetails {
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return arrayListOf(SimpleGrantedAuthority("User"))
+    override fun getAuthorities(): List<SimpleGrantedAuthority> {
+        return user.projects!!.map { SimpleGrantedAuthority(it.projectIdentifier) }
     }
 
     override fun isEnabled(): Boolean {
