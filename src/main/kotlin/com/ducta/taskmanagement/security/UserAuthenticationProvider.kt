@@ -1,6 +1,7 @@
 package com.ducta.taskmanagement.security
 
-import com.ducta.taskmanagement.exceptions.AuthenticationException
+import com.ducta.taskmanagement.exceptions.CustomException
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -21,7 +22,7 @@ class UserAuthenticationProvider(
                     (passwordEncoder.matches(authentication.credentials.toString(), userAuthenticationDetails.password))) {
                 return UsernamePasswordAuthenticationToken(userAuthenticationDetails.username, null, userAuthenticationDetails.authorities)
             }
-            throw AuthenticationException()
+            throw CustomException("Invalid password", HttpStatus.UNAUTHORIZED)
         } catch (ex: Exception) {
             throw ex
         }

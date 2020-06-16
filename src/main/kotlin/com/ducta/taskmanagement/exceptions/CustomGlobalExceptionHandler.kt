@@ -51,63 +51,15 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(EntityAccessDeniedException::class)
-    fun handleEntityAccessDeniedException(ex: EntityAccessDeniedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
+    @ExceptionHandler(CustomException::class)
+    fun handleCustomException(ex: CustomException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
+        return ResponseEntity(ErrorDetails(
                 Date(),
-                403,
-                "Forbidden",
-                ex.message!!,
+                ex.httpStatus.value(),
+                ex.httpStatus.name,
+                ex.message,
                 request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+        ), ex.httpStatus)
     }
 
-    @ExceptionHandler(EntityAlreadyExistedException::class)
-    fun handleEntityAlreadyExists(ex: EntityAlreadyExistedException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(EntityNotFoundException::class)
-    fun handleEntityNotFoundException(ex: EntityNotFoundException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(InvalidStartDateEndDateException::class)
-    fun handleInvalidStartDateAndEndDate(ex: InvalidStartDateEndDateException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Start date and End date are not suitable",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(AuthenticationException::class)
-    fun handleAuthenticationException(ex: AuthenticationException, request: HttpServletRequest): ResponseEntity<ErrorDetails> {
-        val errorDetails = ErrorDetails(
-                Date(),
-                400,
-                "Bad request",
-                ex.message!!,
-                request.requestURI
-        )
-        return ResponseEntity(errorDetails, HttpStatus.UNAUTHORIZED)
-    }
 }

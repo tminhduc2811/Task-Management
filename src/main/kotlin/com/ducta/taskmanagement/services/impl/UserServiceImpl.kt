@@ -9,6 +9,7 @@ import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.UserService
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -23,15 +24,15 @@ class UserServiceImpl(private val userRepository: UserRepository,
                       private val jwtTokenProvider: JwtTokenProvider) : UserService {
     override fun getUserByUsername(username: String): UserDto {
         return userRepository.findUserByUsername(username).map { user -> user.toDTO() }
-                .orElseThrow { EntityNotFoundException("User not found") }
+                .orElseThrow { CustomException("User not found") }
     }
 
     override fun registerUser(userRegisterDto: UserRegisterDto) {
         if (userRepository.isUsernameExist(userRegisterDto.username)) {
-            throw EntityAlreadyExistedException("Username: ${userRegisterDto.username} already existed")
+            throw CustomException("Username: ${userRegisterDto.username} already existed")
         }
         if (userRepository.isEmailExist(userRegisterDto.email)) {
-            throw EntityAlreadyExistedException("Email: ${userRegisterDto.email} already existed")
+            throw CustomException("Email: ${userRegisterDto.email} already existed")
         }
         val user = User(
                 username = userRegisterDto.username,
@@ -44,19 +45,19 @@ class UserServiceImpl(private val userRepository: UserRepository,
     }
 
     override fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto {
-        try {
-            val authentication: Authentication = authenticationManager.authenticate(
-                    UsernamePasswordAuthenticationToken(
-                            userCredentials.username,
-                            userCredentials.password
-                    )
-            )
-            return AuthenticatedUserDto(
-                    userCredentials.username,
-                    jwtTokenProvider.generateToken(authentication)
-            )
-        } catch (ex: Exception) {
-            throw AuthenticationException()
-        }
+//        try {
+        val authentication: Authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                        userCredentials.username,
+                        userCredentials.password
+                )
+        )
+        return AuthenticatedUserDto(
+                userCredentials.username,
+                jwtTokenProvider.generateToken(authentication)
+        )
+//        } catch (ex: Exception) {
+//            throw CustomException("Invalid username or password", HttpStatus.UNAUTHORIZED)
+//        }
     }
 }

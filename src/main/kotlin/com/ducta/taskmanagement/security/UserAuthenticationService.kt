@@ -1,7 +1,8 @@
 package com.ducta.taskmanagement.security
 
-import com.ducta.taskmanagement.exceptions.EntityNotFoundException
+import com.ducta.taskmanagement.exceptions.CustomException
 import com.ducta.taskmanagement.repositories.UserRepository
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -11,6 +12,6 @@ class UserAuthenticationService(private val userRepository: UserRepository): Use
     override fun loadUserByUsername(username: String?): UserDetails? {
         return userRepository.findUserByUsername(username)
                 .map { UserAuthenticationDetails(it) }
-                .orElseThrow { throw EntityNotFoundException("User not found exception") }
+                .orElseThrow { throw CustomException("Username found exception", HttpStatus.UNAUTHORIZED) }
     }
 }

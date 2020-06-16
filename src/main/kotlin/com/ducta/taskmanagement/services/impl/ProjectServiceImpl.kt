@@ -10,6 +10,7 @@ import com.ducta.taskmanagement.domain.User
 import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.ProjectRepository
 import com.ducta.taskmanagement.services.ProjectService
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -20,7 +21,7 @@ class ProjectServiceImpl(
     override fun createProject(user: User, projectCreateDto: ProjectCreateDto) {
 
         projectRepository.findById(projectCreateDto.projectIdentifier)
-                .ifPresent { throw EntityAlreadyExistedException("Project Identifier already existed") }
+                .ifPresent { throw CustomException("Project Identifier already existed") }
         val taskCount = TaskCount()
         val project: Project = Project.fromDto(projectCreateDto)
         val backlog = Backlog()
@@ -42,14 +43,14 @@ class ProjectServiceImpl(
     override fun getProjectByProjectIdentifier(projectIdentifier: String): ProjectDto {
         return projectRepository.findById(projectIdentifier).map {
             it.toDto()
-        }.orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
+        }.orElseThrow { throw CustomException("Project $projectIdentifier not found") }
     }
 
     override fun deleteProject(projectIdentifier: String) {
 
         projectRepository.findById(projectIdentifier)
                 .map { p -> projectRepository.delete(p) }
-                .orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
+                .orElseThrow { throw CustomException("Project $projectIdentifier not found") }
 
     }
 
@@ -67,13 +68,13 @@ class ProjectServiceImpl(
                     updatedProject.backlog = project.backlog
                     updatedProject.user = project.user
                     projectRepository.save(updatedProject)
-                }.orElseThrow { throw EntityNotFoundException("Project $projectIdentifier not found") }
+                }.orElseThrow { throw CustomException("Project $projectIdentifier not found") }
     }
 
     override fun isUserOwnerOfProject(projectIdentifier: String, username: String) {
         projectRepository.findById(projectIdentifier).ifPresent {
             if (it.user!!.username != username) {
-                throw EntityAccessDeniedException()
+                throw CustomException("Access denied", HttpStatus.FORBIDDEN)
             }
         }
 
