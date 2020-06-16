@@ -36,8 +36,8 @@ class DurationValidator : ConstraintValidator<DurationConstraint, Any> {
         }
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         try {
-            val start: Date = dateFormat.parse(startDateValue as String)
-            val end: Date = dateFormat.parse(endDateValue as String)
+            val start: Date = dateFormat.parse(startDateValue)
+            val end: Date = dateFormat.parse(endDateValue)
             if (start.before(end)) {
                 return true
             }

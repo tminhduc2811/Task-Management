@@ -9,14 +9,12 @@ import com.ducta.taskmanagement.exceptions.*
 import com.ducta.taskmanagement.repositories.UserRepository
 import com.ducta.taskmanagement.services.UserService
 import com.ducta.taskmanagement.util.jwtUtil.JwtTokenProvider
-import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.Exception
 
 @Service
 class UserServiceImpl(private val userRepository: UserRepository,
@@ -47,7 +45,6 @@ class UserServiceImpl(private val userRepository: UserRepository,
     }
 
     override fun authenticateUser(userCredentials: UserCredentials): AuthenticatedUserDto {
-//        try {
         val authentication: Authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
                         userCredentials.username,
@@ -58,8 +55,5 @@ class UserServiceImpl(private val userRepository: UserRepository,
                 userCredentials.username,
                 jwtTokenProvider.generateToken(authentication)
         )
-//        } catch (ex: Exception) {
-//            throw CustomException("Invalid username or password", HttpStatus.UNAUTHORIZED)
-//        }
     }
 }
