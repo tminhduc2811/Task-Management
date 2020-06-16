@@ -61,7 +61,7 @@ class BacklogServiceImpl(
                 updatedAt = LocalDateTime.now(),
                 priority = Priority.values()[taskUpdateDto.priority],
                 status = Status.values()[taskUpdateDto.status],
-                dueDate = LocalDate.parse(taskUpdateDto.dueDate),
+                dueDate = Task.setDate(taskUpdateDto.dueDate),
                 acceptanceCriteria = taskUpdateDto.acceptanceCriteria
         )
         updatedTask.backlog = task.backlog

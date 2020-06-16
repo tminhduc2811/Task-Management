@@ -17,7 +17,7 @@ annotation class DateConstraint(
         val payload: Array<KClass<out Payload>> = []
 )
 
-class DateValidator : ConstraintValidator<DateConstraint, String> {
+class DateValidator : ConstraintValidator<DateConstraint, String?> {
     override fun isValid(inputDate: String?, context: ConstraintValidatorContext?): Boolean {
         if (inputDate.isNullOrBlank()) return true
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")

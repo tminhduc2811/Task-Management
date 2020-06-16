@@ -13,6 +13,6 @@ class UserAuthenticationService(private val userRepository: UserRepository): Use
     override fun loadUserByUsername(username: String): UserDetails? {
         return userRepository.getAllUserInfo(username)
                 .map { UserAuthenticationDetails(it) }
-                .orElseThrow { throw CustomException("Username found exception", HttpStatus.UNAUTHORIZED) }
+                .orElseThrow { throw CustomException("Username not found exception", HttpStatus.UNAUTHORIZED) }
     }
 }
