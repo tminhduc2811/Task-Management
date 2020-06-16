@@ -71,10 +71,9 @@ class BacklogControllerTest {
         val createTaskCase = BacklogControllerTestCases.getTestCaseCreateTaskFailed()
         val projectIdentifier = createTaskCase.keys.first()
         val entity = HttpEntity(createTaskCase[projectIdentifier]!!, headers)
-        val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.postForEntity("$url/$projectIdentifier", entity)
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
+        val responseEntity: ResponseEntity<Any> = restTemplate.postForEntity("$url/$projectIdentifier", entity)
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project $projectIdentifier not found", responseEntity.body!!.details)
     }
 
     @Test

@@ -85,10 +85,10 @@ class ProjectControllerTest {
         val response: ResponseEntity<Any> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.DELETE, HttpEntity(null, headers))
         Assertions.assertEquals(HttpStatus.OK, response.statusCode)
         // Try to retrieve it again
-        val responseEntity: ResponseEntity<ErrorDetails> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET, HttpEntity(null, headers))
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, responseEntity.statusCode)
+        val responseEntity: ResponseEntity<Any> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.GET, HttpEntity(null, headers))
+        println(responseEntity.body)
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, responseEntity.statusCode)
         Assertions.assertNotNull(responseEntity.body)
-        Assertions.assertEquals("Project $projectIdentifier not found", responseEntity.body!!.details)
     }
 
     @Test
@@ -96,7 +96,7 @@ class ProjectControllerTest {
     fun testDeleteNonExistedProject() {
         val projectIdentifier = ProjectControllerTestCases.getTestCaseDeleteNonExistedProject()
         val response: ResponseEntity<Any> = restTemplate.exchange("$url/$projectIdentifier", HttpMethod.DELETE, HttpEntity(null, headers))
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        Assertions.assertEquals(HttpStatus.FORBIDDEN, response.statusCode)
     }
 
     @Test
